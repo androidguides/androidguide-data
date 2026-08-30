@@ -18,6 +18,7 @@ import json
 import re
 import sys
 import urllib.request
+from calendar import monthrange
 from datetime import date, datetime
 from pathlib import Path
 
@@ -173,10 +174,22 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
             continue
 
         if oid in unresolved_ids:
+            basis = ov.get("security_eol_basis")
+            eol_value = fields.get("eol")
+            reviewed_basis = basis == "manufacturer_exact"
+            if basis == "manufacturer_month_end" and isinstance(eol_value, str):
+                try:
+                    parsed_eol = date.fromisoformat(eol_value)
+                    reviewed_basis = (
+                        parsed_eol.day
+                        == monthrange(parsed_eol.year, parsed_eol.month)[1]
+                    )
+                except ValueError:
+                    reviewed_basis = False
             sourced_security_date = (
-                isinstance(fields.get("eol"), str)
-                and bool(fields["eol"].strip())
-                and ov.get("security_eol_basis") == "manufacturer_exact"
+                isinstance(eol_value, str)
+                and bool(eol_value.strip())
+                and reviewed_basis
                 and isinstance(ov.get("source_url"), str)
                 and ov["source_url"].startswith("https://")
                 and isinstance(ov.get("source_note"), str)
@@ -188,7 +201,8 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
             else:
                 print(
                     f"[WARN] override {oid}: unresolved security provenance; "
-                    "requires eol, manufacturer_exact basis, source_url, and source_note")
+                    "requires eol, manufacturer_exact or a true "
+                    "manufacturer_month_end date, source_url, and source_note")
 
     if semantic_failures is not None and cleared_ids:
         semantic_failures[:] = [

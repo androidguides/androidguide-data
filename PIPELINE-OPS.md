@@ -178,9 +178,14 @@ entries are separated by commas. Overridden/added records get `"source":
 are validated too — a typo'd date trips the gate and emails you rather than
 shipping. To clear a missing-security-date provenance failure, the override for
 that exact device id must either be an explicit `"remove": true` exclusion or
-provide all of `fields.eol`, `security_eol_basis: "manufacturer_exact"`, an
-HTTPS `source_url`, and a non-empty `source_note`. An unrelated override never
-clears another device's failure.
+provide all of `fields.eol`, a reviewed `security_eol_basis`, an HTTPS `source_url`,
+and a non-empty `source_note`. `manufacturer_exact` means the manufacturer publishes
+the full date. `manufacturer_month_end` means the manufacturer
+publishes only an end month; `fields.eol` must normalize that month to its final calendar
+day and `source_note` must state the normalization explicitly. These are override metadata,
+not values of the generated record's `source` field: generated records remain either
+`"endoflife.date"` or `"override"`. An unrelated override never clears another device's
+failure.
 
 ## Security-date provenance guard
 

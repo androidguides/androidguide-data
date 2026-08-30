@@ -3,6 +3,38 @@
   "purpose": "Manual corrections. update_devices.py merges these LAST, so an entry here always beats the automated source. Never hand-edit devices.json - fix it here instead. Format documented in PIPELINE-OPS.md.",
   "overrides": [
     {
+      "id": "samsung-galaxy-z-fold3-5g",
+      "add": true,
+      "fields": {
+        "brand": "Samsung",
+        "model": "Galaxy Z Fold3 5G",
+        "released": "2021-08-27",
+        "eol": "2026-08-31"
+      },
+      "security_eol_basis": "manufacturer_month_end",
+      "source_url": "https://security.samsungmobile.com/workScope.smsb",
+      "corroboration_url": "https://images.samsung.com/is/content/samsung/assets/ch/business/mobile/Briefing_IM_CH_SAMSUNG_B2B_List_Updates_03152024.pdf",
+      "source_note": "Samsung's live security scope still lists Galaxy Z Fold3 5G for quarterly updates on 2026-08-30. A Samsung B2B lifecycle document dated 2024 publishes its SMR End as 2026-08; the dataset normalizes that manufacturer-published month to its final day, 2026-08-31. The device is supported on 2026-08-30 and becomes ended on 2026-09-01.",
+      "reason": "Preserve the device when endoflife.date supplies no dated security EOL, using Samsung's live scope as the primary source and its published SMR end month as corroboration.",
+      "added": "2026-08-30"
+    },
+    {
+      "id": "samsung-galaxy-z-flip3-5g",
+      "add": true,
+      "fields": {
+        "brand": "Samsung",
+        "model": "Galaxy Z Flip3 5G",
+        "released": "2021-08-27",
+        "eol": "2026-08-31"
+      },
+      "security_eol_basis": "manufacturer_month_end",
+      "source_url": "https://security.samsungmobile.com/workScope.smsb",
+      "corroboration_url": "https://images.samsung.com/is/content/samsung/assets/ch/business/mobile/Briefing_IM_CH_SAMSUNG_B2B_List_Updates_03152024.pdf",
+      "source_note": "Samsung's live security scope still lists Galaxy Z Flip3 5G for quarterly updates on 2026-08-30. A Samsung B2B lifecycle document dated 2024 publishes its SMR End as 2026-08; the dataset normalizes that manufacturer-published month to its final day, 2026-08-31. The device is supported on 2026-08-30 and becomes ended on 2026-09-01.",
+      "reason": "Preserve the device when endoflife.date supplies no dated security EOL, using Samsung's live scope as the primary source and its published SMR end month as corroboration.",
+      "added": "2026-08-30"
+    },
+    {
       "id": "samsung-galaxy-a23-5g",
       "add": true,
       "fields": {
