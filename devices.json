@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0",
- "generated": "2026-08-21",
+ "generated": "2026-09-01",
  "source_note": "Security-update end dates from endoflife.date's explicit EOL field where published, plus reviewed manufacturer-exact corrections in overrides.json. Android-upgrade support dates are never substituted. Auto-generated \u2014 do not hand-edit.",
  "devices": [
   {
@@ -36,28 +36,36 @@
    "source": "endoflife.date"
   },
   {
-   "id": "samsung-galaxy-z-fold8",
-   "source": "override",
-   "brand": "Samsung",
-   "model": "Galaxy Z Fold8",
-   "released": "2026-08-07",
-   "eol": "2033-07-31"
-  },
-  {
    "id": "samsung-galaxy-z-flip8",
-   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy Z Flip8",
    "released": "2026-08-07",
-   "eol": "2033-07-31"
+   "eol": "2033-07-31",
+   "source": "override"
+  },
+  {
+   "id": "samsung-galaxy-z-fold8",
+   "brand": "Samsung",
+   "model": "Galaxy Z Fold8",
+   "released": "2026-08-07",
+   "eol": "2033-07-31",
+   "source": "override"
   },
   {
    "id": "samsung-galaxy-z-fold8-ultra",
-   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy Z Fold8 Ultra",
    "released": "2026-08-07",
-   "eol": "2033-07-31"
+   "eol": "2033-07-31",
+   "source": "override"
+  },
+  {
+   "id": "samsung-galaxy-a27-5g",
+   "brand": "Samsung",
+   "model": "Galaxy A27 5G",
+   "released": "2026-07-14",
+   "eol": "2032-07-14",
+   "source": "endoflife.date"
   },
   {
    "id": "samsung-galaxy-a57-5g",
@@ -741,19 +749,19 @@
   },
   {
    "id": "samsung-galaxy-z-fold3-5g",
+   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy Z Fold3 5G",
    "released": "2021-08-27",
-   "eol": "2026-08-27",
-   "source": "endoflife.date"
+   "eol": "2026-08-31"
   },
   {
    "id": "samsung-galaxy-z-flip3-5g",
+   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy Z Flip3 5G",
    "released": "2021-08-27",
-   "eol": "2026-08-27",
-   "source": "endoflife.date"
+   "eol": "2026-08-31"
   },
   {
    "id": "google-pixel-5a",
