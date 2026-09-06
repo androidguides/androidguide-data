@@ -32,10 +32,15 @@ def esc(s: str) -> str:
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def is_ended(eol: date, as_of: date) -> bool:
+    """The EOL date is the final supported calendar day."""
+    return eol < as_of
+
+
 def sentence(d: dict, today: date) -> str:
     name = esc(f"{d['brand']} {d['model']}")
     eol = datetime.fromisoformat(d["eol"]).date()
-    verb = "ended on" if eol < today else "are scheduled to end on"
+    verb = "ended on" if is_ended(eol, today) else "are scheduled to end on"
     return (f"<li>Android security updates for the <b>{name}</b> {verb} "
             f"<b>{human(d['eol'])}</b> (released {human(d['released'])}).</li>")
 
@@ -50,8 +55,9 @@ def main() -> int:
     ok = soon = ended = 0
     for d in devices:
         brands[d["brand"]] = brands.get(d["brand"], 0) + 1
-        left = (datetime.fromisoformat(d["eol"]).date() - today).days
-        if left < 0:
+        eol = datetime.fromisoformat(d["eol"]).date()
+        left = (eol - today).days
+        if is_ended(eol, today):
             ended += 1
         elif left <= 365:
             soon += 1
