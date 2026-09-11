@@ -60,6 +60,53 @@ class SupportWindowContractTests(unittest.TestCase):
         self.assertEqual([], validate_support_window(item))
         self.assertEqual("2026-09-30", exact_end_date(item).isoformat())
 
+    def test_optional_list_qualifier_is_valid_and_raw_upstream_may_be_null(self):
+        item = record({
+            "published_value": "2026-09-30",
+            "precision": "day",
+            "basis": "manufacturer_published",
+            "meaning": "scheduled_endpoint",
+            "raw_upstream_value": None,
+            "provenance": provenance(
+                list_qualifier="Samsung regional endpoint — no US endpoint published",
+            ),
+        })
+        item["eol"] = "2026-09-30"
+        item["source"] = "override"
+
+        self.assertEqual([], validate_support_window(item))
+
+    def test_existing_record_without_optional_list_qualifier_remains_valid(self):
+        item = record({
+            "published_value": "2026-09-30",
+            "precision": "day",
+            "basis": "manufacturer_published",
+            "meaning": "scheduled_endpoint",
+            "raw_upstream_value": None,
+            "provenance": provenance(),
+        })
+        item["eol"] = "2026-09-30"
+        item["source"] = "override"
+
+        self.assertEqual([], validate_support_window(item))
+
+    def test_list_qualifier_cannot_be_empty(self):
+        item = record({
+            "published_value": "2026-09-30",
+            "precision": "day",
+            "basis": "manufacturer_published",
+            "meaning": "scheduled_endpoint",
+            "raw_upstream_value": "2026-10-01",
+            "provenance": provenance(list_qualifier=""),
+        })
+        item["eol"] = "2026-09-30"
+        item["source"] = "override"
+
+        self.assertIn(
+            "provenance.list_qualifier must be a non-empty string",
+            validate_support_window(item),
+        )
+
     def test_unknown_precision_cannot_smuggle_in_a_day_or_bounds(self):
         item = record({
             "published_value": "2026-10-01",

@@ -228,7 +228,7 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
     if entries is None:
         if not OVERRIDES_FILE.exists():
             return devices
-        data = json.loads(OVERRIDES_FILE.read_text())
+        data = json.loads(OVERRIDES_FILE.read_text(encoding="utf-8"))
         entries = data.get("overrides", [])
     if not entries:
         return devices
@@ -289,7 +289,7 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
                 "precision": precision,
                 "basis": "manufacturer_published",
                 "meaning": "scheduled_endpoint",
-                "raw_upstream_value": None,
+                "raw_upstream_value": ov.get("raw_upstream_value"),
                 "provenance": {
                     "source_url": ov.get("source_url", ""),
                     "checked_on": ov.get("added", ""),
@@ -298,6 +298,10 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
                     "note": ov.get("source_note", ""),
                 },
             }
+            if ov.get("list_qualifier") is not None:
+                by_id[oid]["support_window"]["provenance"]["list_qualifier"] = (
+                    ov["list_qualifier"]
+                )
 
         if oid in unresolved_ids:
             reviewed_basis = basis == "manufacturer_exact"

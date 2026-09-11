@@ -100,6 +100,37 @@ class PrecisionAwareStatusTests(unittest.TestCase):
         self.assertIn("exact historical cutoff date is not established", text)
         self.assertNotIn("November 5", text)
 
+    def test_regional_override_list_sentence_keeps_qualifier_with_date(self):
+        record = {
+            "id": "samsung-galaxy-a37-5g",
+            "brand": "Samsung",
+            "model": "Galaxy A37 5G",
+            "released": "2026-04-10",
+            "eol": "2032-03-31",
+            "source": "override",
+            "support_window": {
+                "published_value": "2032-03-31",
+                "precision": "day",
+                "basis": "manufacturer_published",
+                "meaning": "scheduled_endpoint",
+                "raw_upstream_value": "2032-04-10",
+                "provenance": {
+                    "list_qualifier": (
+                        "Samsung SM-A376W/B — no US endpoint published"
+                    ),
+                },
+            },
+        }
+
+        rendered = sentence(record, date(2026, 9, 11))
+
+        self.assertIn("March 31, 2032", rendered)
+        self.assertIn(
+            '<span class="source-scope">Samsung SM-A376W/B — '
+            "no US endpoint published</span>",
+            rendered,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
