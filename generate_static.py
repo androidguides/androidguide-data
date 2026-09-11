@@ -31,7 +31,8 @@ def human(iso: str) -> str:
 
 
 def esc(s: str) -> str:
-    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;").replace("'", "&#39;"))
 
 
 def is_ended(eol: date, as_of: date) -> bool:
@@ -42,7 +43,8 @@ def is_ended(eol: date, as_of: date) -> bool:
 def sentence(d: dict, today: date) -> str:
     plain_name = f"{d['brand']} {d['model']}"
     clause = esc(support_sentence(d, today))
-    clause = clause.replace(esc(plain_name), f"<b>{esc(plain_name)}</b>", 1)
+    device_link = f'<a href="/device/{esc(d["id"])}/">{esc(plain_name)}</a>'
+    clause = clause.replace(esc(plain_name), f"<b>{device_link}</b>", 1)
     return f"<li>{clause} (Released {human(d['released'])}.)</li>"
 
 
@@ -72,9 +74,12 @@ def main() -> int:
   {counts['supported']} have a stated support window beyond 12 months, {counts['ending']} have a stated support window ending within 12 months,
   {counts['guarantee_elapsed']} have passed their stated guarantee period without a confirmed stop, and {counts['ended']} are confirmed no longer supported.
   Data refreshes monthly from manufacturer commitments and endoflife.date.</p>
+  <details>
+  <summary>Show all {n} devices as a plain text list</summary>
   <ul>
 {items}
   </ul>
+  </details>
 </section>
 """
     OUTPUT.write_text(html, encoding="utf-8")

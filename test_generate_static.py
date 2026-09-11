@@ -7,12 +7,14 @@ from support_status import support_date_text, support_sentence, support_state
 
 class EolBoundaryTests(unittest.TestCase):
     A23 = {
+        "id": "samsung-galaxy-a23-5g",
         "brand": "Samsung",
         "model": "Galaxy A23 5G",
         "released": "2022-09-02",
         "eol": "2026-09-30",
     }
     PIXEL_6 = {
+        "id": "google-pixel-6",
         "brand": "Google",
         "model": "Pixel 6",
         "released": "2021-10-28",
@@ -33,9 +35,17 @@ class EolBoundaryTests(unittest.TestCase):
         self.assertIn("are scheduled to end on", sentence(self.PIXEL_6, date(2026, 10, 1)))
         self.assertIn("ended on", sentence(self.PIXEL_6, date(2026, 10, 2)))
 
+    def test_sentence_links_to_the_canonical_device_page(self):
+        rendered = sentence(self.A23, date(2026, 9, 30))
+        self.assertIn(
+            '<a href="/device/samsung-galaxy-a23-5g/">Samsung Galaxy A23 5G</a>',
+            rendered,
+        )
+
 
 class PrecisionAwareStatusTests(unittest.TestCase):
     PIXEL_6 = {
+        "id": "google-pixel-6",
         "brand": "Google",
         "model": "Pixel 6",
         "released": "2021-10-28",
