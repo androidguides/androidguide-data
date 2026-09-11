@@ -13,7 +13,6 @@ PRECISIONS = {"day", "month", "unknown"}
 BASES = {
     "manufacturer_published",
     "policy_calculation",
-    "observed_scope_removal",
     "aggregator",
 }
 MEANINGS = {
@@ -21,7 +20,6 @@ MEANINGS = {
     "scheduled_endpoint",
     "up_to",
     "estimate",
-    "observed_removal",
 }
 ALLOWED_MEANINGS_BY_BASIS = {
     "manufacturer_published": {
@@ -30,9 +28,15 @@ ALLOWED_MEANINGS_BY_BASIS = {
         "up_to",
     },
     "policy_calculation": {"minimum_guarantee", "up_to", "estimate"},
-    "observed_scope_removal": {"observed_removal"},
     "aggregator": {"estimate"},
 }
+OBSERVATION_STATUSES = {
+    "listed_under_current_policy",
+    "no_longer_receives_updates",
+    "removed_from_support_scope",
+    "unknown",
+}
+REQUIRED_OBSERVATION_FIELDS = {"status", "observed_on", "provenance"}
 REQUIRED_WINDOW_FIELDS = {
     "published_value",
     "precision",
@@ -62,6 +66,29 @@ def _iso_date(value, field, failures):
         return None
 
 
+def _validate_provenance(provenance, field, failures):
+    if not isinstance(provenance, dict):
+        failures.append(f"{field} must be an object")
+        return
+
+    missing = sorted(REQUIRED_PROVENANCE_FIELDS - set(provenance))
+    if missing:
+        failures.append(f"{field} missing fields: " + ", ".join(missing))
+        return
+
+    source_url = provenance["source_url"]
+    if not isinstance(source_url, str) or not source_url.startswith("https://"):
+        failures.append(f"{field}.source_url must be HTTPS")
+    _iso_date(provenance["checked_on"], f"{field}.checked_on", failures)
+    if not isinstance(provenance["market"], str) or not provenance["market"].strip():
+        failures.append(f"{field}.market must be a non-empty string")
+    model_codes = provenance["model_codes"]
+    if not isinstance(model_codes, list) or any(
+        not isinstance(code, str) or not code.strip() for code in model_codes
+    ):
+        failures.append(f"{field}.model_codes must be a list of non-empty strings")
+    if not isinstance(provenance["note"], str) or not provenance["note"].strip():
+        failures.append(f"{field}.note must be a non-empty string")
 def validate_support_window(record: dict) -> list[str]:
     """Return contract failures for one generated device record."""
     failures = []
@@ -96,29 +123,36 @@ def validate_support_window(record: dict) -> list[str]:
         if published is not None:
             failures.append("unknown precision requires null published_value")
 
-    provenance = window["provenance"]
-    if not isinstance(provenance, dict):
-        failures.append("provenance must be an object")
-    else:
-        missing_provenance = sorted(REQUIRED_PROVENANCE_FIELDS - set(provenance))
-        if missing_provenance:
-            failures.append(
-                "provenance missing fields: " + ", ".join(missing_provenance)
-            )
+    _validate_provenance(window["provenance"], "provenance", failures)
+
+    observation = record.get("support_observation")
+    if observation is not None:
+        if not isinstance(observation, dict):
+            failures.append("support_observation must be an object")
         else:
-            source_url = provenance["source_url"]
-            if not isinstance(source_url, str) or not source_url.startswith("https://"):
-                failures.append("provenance.source_url must be HTTPS")
-            _iso_date(provenance["checked_on"], "provenance.checked_on", failures)
-            if not isinstance(provenance["market"], str) or not provenance["market"].strip():
-                failures.append("provenance.market must be a non-empty string")
-            model_codes = provenance["model_codes"]
-            if not isinstance(model_codes, list) or any(
-                not isinstance(code, str) or not code.strip() for code in model_codes
-            ):
-                failures.append("provenance.model_codes must be a list of non-empty strings")
-            if not isinstance(provenance["note"], str) or not provenance["note"].strip():
-                failures.append("provenance.note must be a non-empty string")
+            missing_observation = sorted(REQUIRED_OBSERVATION_FIELDS - set(observation))
+            if missing_observation:
+                failures.append(
+                    "support_observation missing fields: "
+                    + ", ".join(missing_observation)
+                )
+            else:
+                status = observation["status"]
+                if status not in OBSERVATION_STATUSES:
+                    failures.append(
+                        "support_observation.status must be one of "
+                        + str(sorted(OBSERVATION_STATUSES))
+                    )
+                _iso_date(
+                    observation["observed_on"],
+                    "support_observation.observed_on",
+                    failures,
+                )
+                _validate_provenance(
+                    observation["provenance"],
+                    "support_observation.provenance",
+                    failures,
+                )
 
     source = record.get("source")
     if source not in {"endoflife.date", "override"}:
