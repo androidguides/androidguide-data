@@ -1,8 +1,10 @@
 import io
+import json
 import unittest
 from contextlib import redirect_stdout
+from pathlib import Path
 
-from update_devices import apply_overrides, normalize
+from update_devices import apply_overrides, apply_pixel_support_metadata, normalize
 
 
 class NormalizeSecurityEolTests(unittest.TestCase):
@@ -90,6 +92,7 @@ class OverrideProvenanceTests(unittest.TestCase):
             "add": True,
             "fields": self.A23_FIELDS.copy(),
             "security_eol_basis": "manufacturer_exact",
+            "market": "UK publication; US-sold model scope",
             "source_url": "https://www.samsung.com/uk/example",
             "source_note": "Samsung UK publishes the exact security deadline.",
             "reason": "Manufacturer-backed correction.",
@@ -106,6 +109,11 @@ class OverrideProvenanceTests(unittest.TestCase):
         self.assertEqual([], failures)
         self.assertEqual("2026-09-30", result[0]["eol"])
         self.assertEqual("override", result[0]["source"])
+        self.assertEqual("day", result[0]["support_window"]["precision"])
+        self.assertEqual(
+            "UK publication; US-sold model scope",
+            result[0]["support_window"]["provenance"]["market"],
+        )
 
     def test_missing_provenance_does_not_clear_guard(self):
         devices, failures = self.normalize_a23()
@@ -147,6 +155,59 @@ class OverrideProvenanceTests(unittest.TestCase):
 
         self.assertEqual([], failures)
         self.assertEqual([], result)
+
+
+class PixelSupportMetadataTests(unittest.TestCase):
+    ROOT = Path(__file__).parent
+
+    def setUp(self):
+        self.audit = json.loads(
+            (self.ROOT / "pixel-support-audit.json").read_text(encoding="utf-8")
+        )
+        current = json.loads(
+            (self.ROOT / "devices.json").read_text(encoding="utf-8")
+        )["devices"]
+        self.pixels = [dict(device) for device in current if device["brand"] == "Google"]
+
+    def test_all_current_pixels_receive_reviewed_metadata(self):
+        failures = []
+        result = apply_pixel_support_metadata(self.pixels, failures, self.audit)
+
+        self.assertEqual(38, len(result))
+        self.assertEqual([], failures)
+        self.assertTrue(all("support_window" in item for item in result))
+        self.assertTrue(all("support_observation" in item for item in result))
+
+    def test_unaudited_new_pixel_blocks_publication(self):
+        devices = self.pixels + [{
+            "id": "google-pixel-12",
+            "brand": "Google",
+            "model": "Pixel 12",
+            "released": "2027-08-20",
+            "eol": "2034-08-01",
+            "source": "endoflife.date",
+        }]
+        failures = []
+
+        apply_pixel_support_metadata(devices, failures, self.audit)
+
+        self.assertTrue(any(
+            item["id"] == "google-pixel-12" and "no reviewed" in item["message"]
+            for item in failures
+        ))
+
+    def test_audited_field_drift_blocks_publication(self):
+        devices = [dict(device) for device in self.pixels]
+        pixel_6 = next(item for item in devices if item["id"] == "google-pixel-6")
+        pixel_6["eol"] = "2026-10-31"
+        failures = []
+
+        apply_pixel_support_metadata(devices, failures, self.audit)
+
+        self.assertTrue(any(
+            item["id"] == "google-pixel-6" and "eol" in item["message"]
+            for item in failures
+        ))
 
 
 if __name__ == "__main__":

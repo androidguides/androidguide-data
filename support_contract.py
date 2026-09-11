@@ -1,8 +1,7 @@
 """Validation helpers for AndroidGuides support-window metadata.
 
-This module defines the schema contract only.  It is deliberately not wired into
-``update_devices.py`` until every generated record and every site consumer can be
-migrated together.
+The guarded pipeline and consumers share this contract so precision and meaning
+cannot drift independently.
 """
 
 from datetime import date
@@ -89,6 +88,8 @@ def _validate_provenance(provenance, field, failures):
         failures.append(f"{field}.model_codes must be a list of non-empty strings")
     if not isinstance(provenance["note"], str) or not provenance["note"].strip():
         failures.append(f"{field}.note must be a non-empty string")
+
+
 def validate_support_window(record: dict) -> list[str]:
     """Return contract failures for one generated device record."""
     failures = []
