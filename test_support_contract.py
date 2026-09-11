@@ -90,7 +90,7 @@ class SupportWindowContractTests(unittest.TestCase):
         self.assertEqual([], validate_support_window(item))
         self.assertIsNone(exact_end_date(item))
 
-    def test_basis_and_meaning_cannot_be_conflated(self):
+    def test_observation_is_not_a_support_window_basis(self):
         item = record({
             "published_value": "2026-10",
             "precision": "month",
@@ -101,8 +101,49 @@ class SupportWindowContractTests(unittest.TestCase):
         })
 
         self.assertIn(
-            "meaning 'minimum_guarantee' is incompatible with basis 'observed_scope_removal'",
+            "basis must be one of ['aggregator', 'manufacturer_published', 'policy_calculation']",
             validate_support_window(item),
+        )
+
+    def test_support_observation_can_coexist_with_a_guarantee_window(self):
+        item = record({
+            "published_value": "2026-10",
+            "precision": "month",
+            "basis": "policy_calculation",
+            "meaning": "minimum_guarantee",
+            "raw_upstream_value": "2026-10-01",
+            "provenance": provenance(),
+        })
+        item["support_observation"] = {
+            "status": "listed_under_current_policy",
+            "observed_on": "2026-09-11",
+            "provenance": provenance(
+                note="Google currently lists this model under its update policy."
+            ),
+        }
+
+        self.assertEqual([], validate_support_window(item))
+
+    def test_observation_requires_its_own_date_and_provenance(self):
+        item = record({
+            "published_value": None,
+            "precision": "unknown",
+            "basis": "aggregator",
+            "meaning": "estimate",
+            "raw_upstream_value": "2023-11-05",
+            "provenance": provenance(),
+        })
+        item["support_observation"] = {
+            "status": "no_longer_receives_updates",
+            "observed_on": "not-a-date",
+            "provenance": provenance(source_url="http://example.com/status"),
+        }
+
+        failures = validate_support_window(item)
+        self.assertIn("support_observation.observed_on must be an ISO date string", failures)
+        self.assertIn(
+            "support_observation.provenance.source_url must be HTTPS",
+            failures,
         )
 
     def test_provenance_requires_https_date_market_models_and_note(self):

@@ -1,0 +1,78 @@
+{
+  "audit_version": "1.0",
+  "audited_on": "2026-09-11",
+  "dataset_generated": "2026-09-01",
+  "manufacturer": "Google",
+  "record_count": 38,
+  "sources": {
+    "current_policy": "https://support.google.com/pixelphone/answer/4457705",
+    "us_availability": "https://support.google.com/pixelphone/answer/15738422",
+    "pixel_6_launch": "https://blog.google/products-and-platforms/devices/pixel/meet-pixel-6-pixel-6-pro/",
+    "november_2023_update": "https://support.google.com/pixelphone/thread/242705137/google-pixel-update-november-2023?hl=en",
+    "august_2024_bulletin": "https://source.android.com/docs/security/bulletin/pixel/2024-08-01",
+    "upstream_feed": "https://endoflife.date/api/pixel.json"
+  },
+  "groups": {
+    "current_policy": {
+      "count": 24,
+      "support_window": {
+        "precision": "month",
+        "basis": "policy_calculation",
+        "meaning": "minimum_guarantee"
+      },
+      "support_observation": "listed_under_current_policy",
+      "finding": "Google publishes a duration from first Google Store US availability. The resulting year-month is supported; no exact final patch day is published."
+    },
+    "historical_status_only": {
+      "count": 14,
+      "support_window": {
+        "published_value": null,
+        "precision": "unknown",
+        "basis": "aggregator",
+        "meaning": "estimate"
+      },
+      "support_observation": "no_longer_receives_updates",
+      "finding": "Google's current page confirms that these models no longer receive OS or security updates but no longer publishes their historical cutoff. The raw upstream day is not manufacturer-verified."
+    }
+  },
+  "records": [
+    {"id":"google-pixel-11-pro-fold","model":"Pixel 11 Pro Fold","released":"2026-08-20","legacy_eol":"2033-08-01","group":"current_policy","availability_month":"2026-08","policy_years":7,"published_value":"2033-08"},
+    {"id":"google-pixel-11-pro","model":"Pixel 11 Pro","released":"2026-08-20","legacy_eol":"2033-08-01","group":"current_policy","availability_month":"2026-08","policy_years":7,"published_value":"2033-08"},
+    {"id":"google-pixel-11-pro-xl","model":"Pixel 11 Pro XL","released":"2026-08-20","legacy_eol":"2033-08-01","group":"current_policy","availability_month":"2026-08","policy_years":7,"published_value":"2033-08"},
+    {"id":"google-pixel-11","model":"Pixel 11","released":"2026-08-20","legacy_eol":"2033-08-01","group":"current_policy","availability_month":"2026-08","policy_years":7,"published_value":"2033-08"},
+    {"id":"google-pixel-10a","model":"Pixel 10a","released":"2026-03-05","legacy_eol":"2033-03-01","group":"current_policy","availability_month":"2026-03","policy_years":7,"published_value":"2033-03"},
+    {"id":"google-pixel-10-pro-fold","model":"Pixel 10 Pro Fold","released":"2025-10-04","legacy_eol":"2032-10-01","group":"current_policy","availability_month":"2025-10","policy_years":7,"published_value":"2032-10"},
+    {"id":"google-pixel-10-pro","model":"Pixel 10 Pro","released":"2025-08-28","legacy_eol":"2032-08-01","group":"current_policy","availability_month":"2025-08","policy_years":7,"published_value":"2032-08"},
+    {"id":"google-pixel-10-pro-xl","model":"Pixel 10 Pro XL","released":"2025-08-28","legacy_eol":"2032-08-01","group":"current_policy","availability_month":"2025-08","policy_years":7,"published_value":"2032-08"},
+    {"id":"google-pixel-10","model":"Pixel 10","released":"2025-08-28","legacy_eol":"2032-08-01","group":"current_policy","availability_month":"2025-08","policy_years":7,"published_value":"2032-08"},
+    {"id":"google-pixel-9a","model":"Pixel 9a","released":"2025-04-10","legacy_eol":"2032-04-01","group":"current_policy","availability_month":"2025-04","policy_years":7,"published_value":"2032-04"},
+    {"id":"google-pixel-9-pro-fold","model":"Pixel 9 Pro Fold","released":"2024-09-04","legacy_eol":"2031-09-01","group":"current_policy","availability_month":"2024-09","policy_years":7,"published_value":"2031-09"},
+    {"id":"google-pixel-9-pro","model":"Pixel 9 Pro","released":"2024-09-04","legacy_eol":"2031-09-01","group":"current_policy","availability_month":"2024-09","policy_years":7,"published_value":"2031-09"},
+    {"id":"google-pixel-9-pro-xl","model":"Pixel 9 Pro XL","released":"2024-08-22","legacy_eol":"2031-08-01","group":"current_policy","availability_month":"2024-08","policy_years":7,"published_value":"2031-08"},
+    {"id":"google-pixel-9","model":"Pixel 9","released":"2024-08-22","legacy_eol":"2031-08-01","group":"current_policy","availability_month":"2024-08","policy_years":7,"published_value":"2031-08"},
+    {"id":"google-pixel-8a","model":"Pixel 8a","released":"2024-05-14","legacy_eol":"2031-05-01","group":"current_policy","availability_month":"2024-05","policy_years":7,"published_value":"2031-05"},
+    {"id":"google-pixel-8-pro","model":"Pixel 8 Pro","released":"2023-10-04","legacy_eol":"2030-10-01","group":"current_policy","availability_month":"2023-10","policy_years":7,"published_value":"2030-10"},
+    {"id":"google-pixel-8","model":"Pixel 8","released":"2023-10-04","legacy_eol":"2030-10-01","group":"current_policy","availability_month":"2023-10","policy_years":7,"published_value":"2030-10"},
+    {"id":"google-pixel-fold","model":"Pixel Fold","released":"2023-06-28","legacy_eol":"2028-06-01","group":"current_policy","availability_month":"2023-06","policy_years":5,"published_value":"2028-06"},
+    {"id":"google-pixel-7a","model":"Pixel 7a","released":"2023-05-10","legacy_eol":"2028-05-01","group":"current_policy","availability_month":"2023-05","policy_years":5,"published_value":"2028-05"},
+    {"id":"google-pixel-7-pro","model":"Pixel 7 Pro","released":"2022-10-13","legacy_eol":"2027-10-01","group":"current_policy","availability_month":"2022-10","policy_years":5,"published_value":"2027-10"},
+    {"id":"google-pixel-7","model":"Pixel 7","released":"2022-10-13","legacy_eol":"2027-10-01","group":"current_policy","availability_month":"2022-10","policy_years":5,"published_value":"2027-10"},
+    {"id":"google-pixel-6a","model":"Pixel 6a","released":"2022-07-28","legacy_eol":"2027-07-01","group":"current_policy","availability_month":"2022-07","policy_years":5,"published_value":"2027-07"},
+    {"id":"google-pixel-6-pro","model":"Pixel 6 Pro","released":"2021-10-28","legacy_eol":"2026-10-01","group":"current_policy","availability_month":"2021-10","policy_years":5,"published_value":"2026-10"},
+    {"id":"google-pixel-6","model":"Pixel 6","released":"2021-10-28","legacy_eol":"2026-10-01","group":"current_policy","availability_month":"2021-10","policy_years":5,"published_value":"2026-10"},
+    {"id":"google-pixel-5a","model":"Pixel 5a","released":"2021-08-26","legacy_eol":"2024-08-01","group":"historical_status_only","availability_month":"2021-08","published_value":null},
+    {"id":"google-pixel-4a-5g","model":"Pixel 4a (5G)","released":"2020-11-05","legacy_eol":"2023-11-05","group":"historical_status_only","availability_month":"2020-10","published_value":null,"note":"Dataset release month is November; Google's current US availability table says October. The current policy page no longer supplies the historical duration, so no fresh calculation is substituted."},
+    {"id":"google-pixel-5","model":"Pixel 5","released":"2020-10-15","legacy_eol":"2023-11-05","group":"historical_status_only","availability_month":"2020-10","published_value":null,"note":"Google's current policy page supplies only the ended status, while Google's November 2023 update announcement includes Pixel 5. The raw November 5 value's exact meaning is not established."},
+    {"id":"google-pixel-4a","model":"Pixel 4a","released":"2020-08-20","legacy_eol":"2023-08-05","group":"historical_status_only","availability_month":"2020-08","published_value":null},
+    {"id":"google-pixel-4-xl","model":"Pixel 4 XL","released":"2019-10-24","legacy_eol":"2022-10-05","group":"historical_status_only","availability_month":"2019-10","published_value":null},
+    {"id":"google-pixel-4","model":"Pixel 4","released":"2019-10-24","legacy_eol":"2022-10-05","group":"historical_status_only","availability_month":"2019-10","published_value":null},
+    {"id":"google-pixel-3a-xl","model":"Pixel 3a XL","released":"2019-05-15","legacy_eol":"2022-05-05","group":"historical_status_only","availability_month":"2019-05","published_value":null},
+    {"id":"google-pixel-3a","model":"Pixel 3a","released":"2019-05-15","legacy_eol":"2022-05-05","group":"historical_status_only","availability_month":"2019-05","published_value":null},
+    {"id":"google-pixel-3-xl","model":"Pixel 3 XL","released":"2018-10-18","legacy_eol":"2021-10-05","group":"historical_status_only","availability_month":"2018-10","published_value":null},
+    {"id":"google-pixel-3","model":"Pixel 3","released":"2018-10-18","legacy_eol":"2021-10-05","group":"historical_status_only","availability_month":"2018-10","published_value":null},
+    {"id":"google-pixel-2-xl","model":"Pixel 2 XL","released":"2017-10-17","legacy_eol":"2020-10-05","group":"historical_status_only","availability_month":"2017-10","published_value":null},
+    {"id":"google-pixel-2","model":"Pixel 2","released":"2017-10-17","legacy_eol":"2020-10-05","group":"historical_status_only","availability_month":"2017-10","published_value":null},
+    {"id":"google-pixel-xl","model":"Pixel XL","released":"2016-10-20","legacy_eol":"2019-10-06","group":"historical_status_only","availability_month":"2016-10","published_value":null},
+    {"id":"google-pixel","model":"Pixel","released":"2016-10-20","legacy_eol":"2019-10-06","group":"historical_status_only","availability_month":"2016-10","published_value":null}
+  ]
+}

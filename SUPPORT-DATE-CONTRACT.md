@@ -67,7 +67,6 @@ derived October 31 from being mistaken for a manufacturer-certified endpoint.
 
 - `manufacturer_published`
 - `policy_calculation`
-- `observed_scope_removal`
 - `aggregator`
 
 `meaning` describes what the evidence actually asserts:
@@ -76,11 +75,35 @@ derived October 31 from being mistaken for a manufacturer-certified endpoint.
 - `scheduled_endpoint`
 - `up_to`
 - `estimate`
-- `observed_removal`
 
 Basis and meaning are separate. A policy calculation can produce a minimum
-guarantee without establishing an observed stop. Removal from a live support
-scope is an observation, not proof of the last delivered patch.
+guarantee without establishing an observed stop.
+
+## Support observations are separate
+
+An update commitment and an observed support state can both be true and must
+not overwrite each other. A record may therefore carry an optional sibling:
+
+```json
+"support_observation": {
+  "status": "no_longer_receives_updates",
+  "observed_on": "2026-09-11",
+  "provenance": {
+    "source_url": "https://support.google.com/pixelphone/answer/4457705",
+    "checked_on": "2026-09-11",
+    "market": "US",
+    "model_codes": [],
+    "note": "Google currently lists this model as no longer receiving OS or security updates."
+  }
+}
+```
+
+Allowed observation states are `listed_under_current_policy`,
+`no_longer_receives_updates`, `removed_from_support_scope`, and `unknown`.
+`observed_on` says when the source was checked; it is not silently promoted to
+the date on which support changed. This separation is what lets a consumer say
+that a guarantee has elapsed without claiming that updates definitely stopped
+on that day.
 
 ## Consumer rule
 
@@ -116,6 +139,8 @@ The executable contract in `support_contract.py` and
 5. Basis/meaning combinations to be semantically compatible.
 6. Existing `source` vocabulary to remain unchanged.
 7. `exact_end_date()` to return a day only for `day` precision.
+8. Support observations to carry their own status, observation date and
+   provenance instead of masquerading as an end-date basis.
 
 Before schema `1.1` can be emitted:
 
