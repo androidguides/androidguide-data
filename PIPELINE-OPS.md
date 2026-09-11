@@ -23,6 +23,9 @@ workflow), `update-devices.yml` does, in order:
    - brand floors: ≥ 15 Google, ≥ 40 Samsung
    - 4 canary devices exist with their known release dates
      (google-pixel-8, google-pixel-6, samsung-galaxy-s24, samsung-galaxy-z-fold5)
+   - every Google Pixel matches the reviewed `pixel-support-audit.json` and receives
+     valid `support_window` plus `support_observation` metadata. A new unaudited Pixel
+     or audited-field drift fails closed.
 4. ANY gate fails → devices.json is NOT written, the run fails, **GitHub emails
    you**, and the previous good data stays live. Bad data cannot reach visitors.
 5. Gates pass → regenerate `devices-static.html` (the crawlable sentences).
@@ -202,6 +205,26 @@ Samsung dates reflect endoflife.date's explicit security-update end where publis
 Records without an explicit security end should be treated as unknown and verified with
 Samsung. This semantic guard matters because a plausible date of the wrong kind passes
 ordinary schema, range, and count validation.
+
+### Pixel precision gate (schema 1.1)
+
+Google's policy publishes a support duration measured from the first Google Store US
+availability date. Its public availability table establishes the month, not a final day.
+For the 24 Pixel records still covered by that policy, the pipeline therefore publishes
+a month-precision `minimum_guarantee`. During that month consumers say the guaranteed
+window ends this month; beginning the following month they say the stated guarantee has
+elapsed. They must not claim that updates definitely stopped on the first day of the
+month or the first day after it.
+
+For 14 historical Pixels, Google's current policy page confirms only that the phones no
+longer receive updates. Their raw upstream `eol` values remain for schema compatibility,
+but the generated metadata marks their exact historical cutoff as unknown and records the
+current manufacturer observation separately.
+
+`pixel-support-audit.json` is the reviewed mapping. Every Pixel in a run must appear in
+it exactly once, and its model, release date, and raw upstream date must still match the
+audited values. Any new Pixel or drift stops publication until that audit is reviewed and
+updated. See `SUPPORT-DATE-CONTRACT.md` and `PIXEL-SUPPORT-AUDIT.md`.
 
 ## If endoflife.date is down, rate-limits us, or disappears
 

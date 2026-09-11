@@ -22,6 +22,9 @@ from calendar import monthrange
 from datetime import date, datetime
 from pathlib import Path
 
+from support_contract import validate_support_window
+from support_status import support_state
+
 API_BASE = "https://endoflife.date/api"
 SOURCES = {
     "Google": "pixel.json",
@@ -29,6 +32,7 @@ SOURCES = {
 }
 OUTPUT = Path(__file__).parent / "devices.json"
 OVERRIDES_FILE = Path(__file__).parent / "overrides.json"
+PIXEL_AUDIT_FILE = Path(__file__).parent / "pixel-support-audit.json"
 USER_AGENT = "AndroidGuideBot/1.0 (androidguides.com; contact: contact@androidguides.com)"
 
 # ---------------------------------------------------------------- filters
@@ -109,8 +113,110 @@ def normalize(brand: str, raw: list, semantic_failures=None) -> list:
 
 def load_existing() -> dict:
     if OUTPUT.exists():
-        return {d["id"]: d for d in json.loads(OUTPUT.read_text())["devices"]}
+        return {d["id"]: d for d in json.loads(OUTPUT.read_text(encoding="utf-8"))["devices"]}
     return {}
+
+
+def apply_pixel_support_metadata(devices: list, semantic_failures=None, audit=None) -> list:
+    """Attach reviewed Pixel precision metadata and reject unaudited drift."""
+    if audit is None:
+        audit = json.loads(PIXEL_AUDIT_FILE.read_text(encoding="utf-8"))
+    if semantic_failures is None:
+        semantic_failures = []
+
+    by_id = {d["id"]: d for d in devices}
+    audit_by_id = {item["id"]: item for item in audit.get("records", [])}
+    pixel_ids = {d["id"] for d in devices if d.get("brand") == "Google"}
+    audit_ids = set(audit_by_id)
+    for missing in sorted(pixel_ids - audit_ids):
+        semantic_failures.append({
+            "id": missing,
+            "message": "Google Pixel record has no reviewed support-date audit entry",
+        })
+    for stale in sorted(audit_ids - pixel_ids):
+        semantic_failures.append({
+            "id": stale,
+            "message": "reviewed Pixel audit entry is missing from the generated dataset",
+        })
+
+    policy_url = audit["sources"]["current_policy"]
+    availability_url = audit["sources"]["us_availability"]
+    upstream_url = audit["sources"]["upstream_feed"]
+    for device_id in sorted(pixel_ids & audit_ids):
+        device = by_id[device_id]
+        item = audit_by_id[device_id]
+        drift = [
+            field for field, audit_field in (
+                ("model", "model"),
+                ("released", "released"),
+                ("eol", "legacy_eol"),
+            )
+            if device.get(field) != item.get(audit_field)
+        ]
+        if drift:
+            semantic_failures.append({
+                "id": device_id,
+                "message": "Pixel source changed audited field(s): " + ", ".join(drift),
+            })
+            continue
+
+        if item["group"] == "current_policy":
+            device["support_window"] = {
+                "published_value": item["published_value"],
+                "precision": "month",
+                "basis": "policy_calculation",
+                "meaning": "minimum_guarantee",
+                "raw_upstream_value": item["legacy_eol"],
+                "provenance": {
+                    "source_url": policy_url,
+                    "checked_on": audit["audited_on"],
+                    "market": "US",
+                    "model_codes": [],
+                    "note": (
+                        "Calculated from Google's update-policy duration and the "
+                        f"Google Store US availability month {item['availability_month']} "
+                        f"published at {availability_url}; no exact final patch day is published."
+                    ),
+                },
+            }
+            observation_status = "listed_under_current_policy"
+            observation_note = "Google currently lists this model under its update policy."
+        else:
+            device["support_window"] = {
+                "published_value": None,
+                "precision": "unknown",
+                "basis": "aggregator",
+                "meaning": "estimate",
+                "raw_upstream_value": item["legacy_eol"],
+                "provenance": {
+                    "source_url": upstream_url,
+                    "checked_on": audit["audited_on"],
+                    "market": "US",
+                    "model_codes": [],
+                    "note": (
+                        "The raw exact-looking date is retained for compatibility but is "
+                        "not attributed to Google; current Google evidence does not establish "
+                        "the historical cutoff day."
+                    ),
+                },
+            }
+            observation_status = "no_longer_receives_updates"
+            observation_note = (
+                "Google currently lists this model as no longer receiving Android version "
+                "or security updates; this observation does not establish the historical stop date."
+            )
+        device["support_observation"] = {
+            "status": observation_status,
+            "observed_on": audit["audited_on"],
+            "provenance": {
+                "source_url": policy_url,
+                "checked_on": audit["audited_on"],
+                "market": "US",
+                "model_codes": [],
+                "note": observation_note,
+            },
+        }
+    return devices
 
 
 # ---------------------------------------------------------------- overrides (P1)
@@ -173,9 +279,27 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
             print(f"[WARN] override {oid}: id not in dataset (add:true to insert)")
             continue
 
+        basis = ov.get("security_eol_basis")
+        eol_value = fields.get("eol")
+        if basis in {"manufacturer_exact", "manufacturer_month_end"} and eol_value:
+            precision = "day" if basis == "manufacturer_exact" else "month"
+            published_value = eol_value if precision == "day" else eol_value[:7]
+            by_id[oid]["support_window"] = {
+                "published_value": published_value,
+                "precision": precision,
+                "basis": "manufacturer_published",
+                "meaning": "scheduled_endpoint",
+                "raw_upstream_value": None,
+                "provenance": {
+                    "source_url": ov.get("source_url", ""),
+                    "checked_on": ov.get("added", ""),
+                    "market": ov.get("market", "See source note"),
+                    "model_codes": ov.get("model_codes", []),
+                    "note": ov.get("source_note", ""),
+                },
+            }
+
         if oid in unresolved_ids:
-            basis = ov.get("security_eol_basis")
-            eol_value = fields.get("eol")
             reviewed_basis = basis == "manufacturer_exact"
             if basis == "manufacturer_month_end" and isinstance(eol_value, str):
                 try:
@@ -255,6 +379,9 @@ def validate(devices: list, existing: dict) -> list:
                 fails.append(f"{did}: eol {d['eol']} not after released {d['released']}")
         except (KeyError, TypeError, ValueError):
             pass  # already reported above
+        if d.get("brand") == "Google" or "support_window" in d:
+            for failure in validate_support_window(d):
+                fails.append(f"{did}: support metadata: {failure}")
 
     # Gate 4: brand mix
     for brand, floor in MIN_PER_BRAND.items():
@@ -297,6 +424,7 @@ def main() -> int:
 
     # Manual corrections merge LAST (P1)
     deduped = apply_overrides(deduped, semantic_failures)
+    deduped = apply_pixel_support_metadata(deduped, semantic_failures)
     seen = {d["id"] for d in deduped}
 
     # Diff report — this becomes your monthly changelog / newsletter fodder
@@ -313,16 +441,17 @@ def main() -> int:
         print(f"  ~ EOL CHANGED: {i}: {existing[i]['eol']} -> "
               f"{next(d['eol'] for d in deduped if d['id'] == i)}")
 
-    # Devices going EOL within 12 months — content/alert opportunities
-    # (tolerant of malformed dates: the validation gate below reports those properly)
+    # Devices whose stated window ends within 12 months — content/alert opportunities.
+    # Precision-aware Pixel records must not be classified from the legacy eol day.
     soon = []
     for d in deduped:
         try:
-            if 0 <= (datetime.fromisoformat(d["eol"]).date() - date.today()).days <= 365:
+            if support_state(d, date.today()) == "ending":
                 soon.append(d)
-        except (ValueError, TypeError):
+        except (KeyError, ValueError, TypeError):
             pass
-    print(f"  ! {len(soon)} devices reach EOL within 12 months (alert/content targets)")
+    print(f"  ! {len(soon)} devices have a stated support window ending within 12 months "
+          "(alert/content targets)")
 
     # ---------------- VALIDATION GATE: fail = no write, non-zero exit ----------------
     fails = validate(deduped, existing)
@@ -343,14 +472,17 @@ def main() -> int:
         return 0
 
     OUTPUT.write_text(json.dumps({
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "generated": today,
-        "source_note": "Security-update end dates from endoflife.date's explicit EOL field "
-                       "where published, plus reviewed manufacturer-exact corrections in "
-                       "overrides.json. Android-upgrade support dates are never substituted. "
+        "source_note": "Support evidence preserves source precision and meaning. Pixel policy "
+                       "windows are month-level minimum guarantees, with exact-looking upstream "
+                       "dates retained only for compatibility. Reviewed Samsung corrections preserve "
+                       "their declared day or month precision; other explicit endoflife.date security "
+                       "dates remain day-shaped until their own precision audit. Android-upgrade dates "
+                       "are never substituted. "
                        "Auto-generated — do not hand-edit.",
         "devices": deduped,
-    }, indent=1))
+    }, indent=1), encoding="utf-8")
     print(f"[OK] wrote {OUTPUT} ({len(deduped)} devices)")
     return 0
 

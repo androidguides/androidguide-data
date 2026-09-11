@@ -19,6 +19,13 @@ security-update status and end-of-support dates for 130+ Android phones
 **Do not hand-edit** — the pipe regenerates it monthly. Corrections go in `overrides.json`,
 which is merged last and always wins.
 
+Schema 1.1 adds `support_window` and `support_observation` to audited Google Pixel
+records. Consumers must use those fields to preserve the evidence's precision and
+meaning: Google's current policy establishes a month-level minimum guarantee, not an
+exact stop day. The legacy `eol` field remains during the coordinated migration but must
+not be displayed as an exact Google-published endpoint when `support_window.precision`
+is `month` or `unknown`. See `SUPPORT-DATE-CONTRACT.md`.
+
 Top level: `schema_version`, `generated` (ISO date the file was built), `source_note`, `devices`.
 
 Stable URL — this will not move:
@@ -40,6 +47,8 @@ Samsung dates reflect endoflife.date's explicit security-update end where publis
 Reviewed manufacturer-exact corrections are recorded with source URLs and explanatory notes
 in `overrides.json`. A support-only upstream record otherwise fails the publication gate;
 the pipeline never substitutes an Android-upgrade date for a security-update deadline.
+Every generated Pixel must match the reviewed `pixel-support-audit.json`; an unaudited
+new Pixel or drift in an audited model, release date, or legacy date blocks publication.
 
 ## License and citation
 

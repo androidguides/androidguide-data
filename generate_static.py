@@ -16,6 +16,8 @@ import json
 from datetime import date, datetime
 from pathlib import Path
 
+from support_status import support_sentence, support_state
+
 INPUT = Path(__file__).parent / "devices.json"
 OUTPUT = Path(__file__).parent / "devices-static.html"
 
@@ -29,7 +31,8 @@ def human(iso: str) -> str:
 
 
 def esc(s: str) -> str:
-    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;").replace("'", "&#39;"))
 
 
 def is_ended(eol: date, as_of: date) -> bool:
@@ -38,11 +41,11 @@ def is_ended(eol: date, as_of: date) -> bool:
 
 
 def sentence(d: dict, today: date) -> str:
-    name = esc(f"{d['brand']} {d['model']}")
-    eol = datetime.fromisoformat(d["eol"]).date()
-    verb = "ended on" if is_ended(eol, today) else "are scheduled to end on"
-    return (f"<li>Android security updates for the <b>{name}</b> {verb} "
-            f"<b>{human(d['eol'])}</b> (released {human(d['released'])}).</li>")
+    plain_name = f"{d['brand']} {d['model']}"
+    clause = esc(support_sentence(d, today))
+    device_link = f'<a href="/device/{esc(d["id"])}/">{esc(plain_name)}</a>'
+    clause = clause.replace(esc(plain_name), f"<b>{device_link}</b>", 1)
+    return f"<li>{clause} (Released {human(d['released'])}.)</li>"
 
 
 def main() -> int:
@@ -52,17 +55,15 @@ def main() -> int:
 
     n = len(devices)
     brands = {}
-    ok = soon = ended = 0
+    counts = {
+        "supported": 0,
+        "ending": 0,
+        "guarantee_elapsed": 0,
+        "ended": 0,
+    }
     for d in devices:
         brands[d["brand"]] = brands.get(d["brand"], 0) + 1
-        eol = datetime.fromisoformat(d["eol"]).date()
-        left = (eol - today).days
-        if is_ended(eol, today):
-            ended += 1
-        elif left <= 365:
-            soon += 1
-        else:
-            ok += 1
+        counts[support_state(d, today)] += 1
     brand_txt = ", ".join(f"{v} {k}" for k, v in sorted(brands.items()))
 
     items = "\n".join(sentence(d, today) for d in devices)
@@ -70,15 +71,23 @@ def main() -> int:
 <section id="agd-static">
   <h2>Android security update end dates — full list</h2>
   <p>As of {human(data['generated'])}, AndroidGuides.com tracks {n} Android devices ({brand_txt}):
-  {ok} still receiving security updates, {soon} losing support within 12 months, and {ended} no longer supported.
+  {counts['supported']} have a stated support window beyond 12 months, {counts['ending']} have a stated support window ending within 12 months,
+  {counts['guarantee_elapsed']} have passed their stated guarantee period without a confirmed stop, and {counts['ended']} are confirmed no longer supported.
   Data refreshes monthly from manufacturer commitments and endoflife.date.</p>
+  <details>
+  <summary>Show all {n} devices as a plain text list</summary>
   <ul>
 {items}
   </ul>
+  </details>
 </section>
 """
-    OUTPUT.write_text(html)
-    print(f"[OK] wrote {OUTPUT} ({n} sentences; {ok} supported / {soon} ending / {ended} ended)")
+    OUTPUT.write_text(html, encoding="utf-8")
+    print(
+        f"[OK] wrote {OUTPUT} ({n} sentences; "
+        f"{counts['supported']} supported / {counts['ending']} ending / "
+        f"{counts['guarantee_elapsed']} guarantee elapsed / {counts['ended']} ended)"
+    )
     return 0
 
 
