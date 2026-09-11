@@ -476,9 +476,10 @@ def main() -> int:
         "generated": today,
         "source_note": "Support evidence preserves source precision and meaning. Pixel policy "
                        "windows are month-level minimum guarantees, with exact-looking upstream "
-                       "dates retained only for compatibility; reviewed Samsung corrections and "
-                       "explicit endoflife.date security dates remain day-shaped until their own "
-                       "precision audit. Android-upgrade dates are never substituted. "
+                       "dates retained only for compatibility. Reviewed Samsung corrections preserve "
+                       "their declared day or month precision; other explicit endoflife.date security "
+                       "dates remain day-shaped until their own precision audit. Android-upgrade dates "
+                       "are never substituted. "
                        "Auto-generated — do not hand-edit.",
         "devices": deduped,
     }, indent=1), encoding="utf-8")
