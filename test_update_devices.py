@@ -156,6 +156,47 @@ class OverrideProvenanceTests(unittest.TestCase):
         self.assertEqual([], failures)
         self.assertEqual([], result)
 
+    def test_a37_and_a57_overrides_replace_only_the_two_anniversary_dates(self):
+        root = Path(__file__).parent
+        current = json.loads(
+            (root / "devices.json").read_text(encoding="utf-8")
+        )["devices"]
+        overrides = json.loads(
+            (root / "overrides.json").read_text(encoding="utf-8")
+        )["overrides"]
+        before = {item["id"]: item["eol"] for item in current}
+
+        result = apply_overrides(
+            [dict(item) for item in current], entries=overrides
+        )
+        after = {item["id"]: item["eol"] for item in result}
+        changed = sorted(
+            device_id for device_id in before if before[device_id] != after[device_id]
+        )
+
+        self.assertEqual(
+            ["samsung-galaxy-a37-5g", "samsung-galaxy-a57-5g"],
+            changed,
+        )
+        for device_id, qualifier in (
+            (
+                "samsung-galaxy-a37-5g",
+                "Samsung SM-A376W/B — no US endpoint published",
+            ),
+            (
+                "samsung-galaxy-a57-5g",
+                "Samsung SM-A576W/B — no US endpoint published",
+            ),
+        ):
+            record = next(item for item in result if item["id"] == device_id)
+            window = record["support_window"]
+            self.assertEqual("2032-03-31", record["eol"])
+            self.assertNotEqual("2032-04-10", record["eol"])
+            self.assertEqual("override", record["source"])
+            self.assertEqual("day", window["precision"])
+            self.assertEqual("2032-04-10", window["raw_upstream_value"])
+            self.assertEqual(qualifier, window["provenance"]["list_qualifier"])
+
 
 class PixelSupportMetadataTests(unittest.TestCase):
     ROOT = Path(__file__).parent

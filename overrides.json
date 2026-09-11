@@ -102,6 +102,36 @@
       "added": "2026-08-21"
     },
     {
+      "id": "samsung-galaxy-a37-5g",
+      "fields": {
+        "eol": "2032-03-31"
+      },
+      "security_eol_basis": "manufacturer_exact",
+      "market": "CA, UK, LATAM",
+      "model_codes": ["SM-A376W", "SM-A376B"],
+      "list_qualifier": "Samsung SM-A376W/B — no US endpoint published",
+      "source_url": "https://www.samsung.com/ca/smartphones/galaxy-a/galaxy-a37-5g-awesome-charcoal-128gb-sm-a376wzaaxac/",
+      "raw_upstream_value": "2032-04-10",
+      "source_note": "Samsung US lists this device as SM-A376U and states six years of security updates, but does not publish an end date. 31 March 2032 is the Security Update Period Samsung publishes for SM-A376W (Canada) and SM-A376B (UK, Latin America). Applied to the US model on the basis that Samsung states the same six-year commitment for it. Corroborating sources: https://www.samsung.com/uk/smartphones/galaxy-a/galaxy-a37-5g-awesome-lavender-256gb-sm-a376blvgeub/ https://www.samsung.com/latin_en/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-256gb-sm-a376bdgkgto/",
+      "reason": "Replace endoflife.date's release-anniversary estimate with Samsung's manufacturer-published regional security endpoint.",
+      "added": "2026-09-11"
+    },
+    {
+      "id": "samsung-galaxy-a57-5g",
+      "fields": {
+        "eol": "2032-03-31"
+      },
+      "security_eol_basis": "manufacturer_exact",
+      "market": "CA, UK",
+      "model_codes": ["SM-A576W", "SM-A576B"],
+      "list_qualifier": "Samsung SM-A576W/B — no US endpoint published",
+      "source_url": "https://www.samsung.com/ca/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-8gb-sm-a576wdbfxac/",
+      "raw_upstream_value": "2032-04-10",
+      "source_note": "Samsung US lists this device as SM-A576U1 and states six years of security updates, but does not publish an end date. 31 March 2032 is the Security Update Period Samsung publishes for SM-A576W (Canada) and SM-A576B (UK). Applied to the US model on the basis that Samsung states the same six-year commitment for it. Corroborating source: https://www.samsung.com/uk/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbdeub/",
+      "reason": "Replace endoflife.date's release-anniversary estimate with Samsung's manufacturer-published regional security endpoint.",
+      "added": "2026-09-11"
+    },
+    {
       "id": "samsung-galaxy-a12-india",
       "remove": true,
       "reason": "Explicit regional India variant outside the dataset's US-model scope; the US Galaxy A12 remains tracked separately.",

@@ -88,6 +88,11 @@ def _validate_provenance(provenance, field, failures):
         failures.append(f"{field}.model_codes must be a list of non-empty strings")
     if not isinstance(provenance["note"], str) or not provenance["note"].strip():
         failures.append(f"{field}.note must be a non-empty string")
+    if "list_qualifier" in provenance and (
+        not isinstance(provenance["list_qualifier"], str)
+        or not provenance["list_qualifier"].strip()
+    ):
+        failures.append(f"{field}.list_qualifier must be a non-empty string")
 
 
 def validate_support_window(record: dict) -> list[str]:

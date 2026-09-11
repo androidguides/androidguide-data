@@ -45,7 +45,13 @@ def sentence(d: dict, today: date) -> str:
     clause = esc(support_sentence(d, today))
     device_link = f'<a href="/device/{esc(d["id"])}/">{esc(plain_name)}</a>'
     clause = clause.replace(esc(plain_name), f"<b>{device_link}</b>", 1)
-    return f"<li>{clause} (Released {human(d['released'])}.)</li>"
+    qualifier = (
+        (d.get("support_window") or {}).get("provenance") or {}
+    ).get("list_qualifier")
+    qualifier_html = (
+        f' <span class="source-scope">{esc(qualifier)}</span>' if qualifier else ""
+    )
+    return f"<li>{clause}{qualifier_html} (Released {human(d['released'])}.)</li>"
 
 
 def main() -> int:
