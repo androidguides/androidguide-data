@@ -41,6 +41,19 @@ class SupportWindowContractTests(unittest.TestCase):
         self.assertEqual([], validate_support_window(item))
         self.assertIsNone(exact_end_date(item))
 
+    def test_unknown_precision_without_observation_is_valid(self):
+        item = record({
+            "published_value": None,
+            "precision": "unknown",
+            "basis": "aggregator",
+            "meaning": "estimate",
+            "raw_upstream_value": "2021-11-05",
+            "provenance": provenance(),
+        })
+
+        self.assertEqual([], validate_support_window(item))
+        self.assertIsNone(exact_end_date(item))
+
     def test_exact_manufacturer_endpoint_can_expose_an_exact_day(self):
         item = record({
             "published_value": "2026-09-30",
@@ -166,6 +179,25 @@ class SupportWindowContractTests(unittest.TestCase):
             "observed_on": "2026-09-11",
             "provenance": provenance(
                 note="Google currently lists this model under its update policy."
+            ),
+        }
+
+        self.assertEqual([], validate_support_window(item))
+
+    def test_ended_observation_can_settle_a_month_guarantee(self):
+        item = record({
+            "published_value": "2026-10",
+            "precision": "month",
+            "basis": "policy_calculation",
+            "meaning": "minimum_guarantee",
+            "raw_upstream_value": "2026-10-01",
+            "provenance": provenance(),
+        })
+        item["support_observation"] = {
+            "status": "no_longer_receives_updates",
+            "observed_on": "2026-12-02",
+            "provenance": provenance(
+                note="The manufacturer now lists this model as no longer supported."
             ),
         }
 

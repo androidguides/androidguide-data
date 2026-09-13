@@ -1,8 +1,8 @@
 # Support-date precision contract
 
-Status: proposed schema contract and executable validation tests. Not connected to
-the publishing pipeline. Merging or deploying it alone must not change
-`devices.json` or AndroidGuides.com.
+Status: schema contract and executable validation used by `update_devices.py`.
+Merging this file alone does not write `devices.json` or change AndroidGuides.com;
+publication occurs only when the scheduled or manually dispatched workflow runs.
 
 ## Problem
 
@@ -109,6 +109,10 @@ on that day.
 
 No consumer may render `eol` directly once `support_window` exists.
 
+A settling current observation is evaluated before display precision. It
+controls status and action wording; the support window may remain as context,
+but it must not be used to invent the day on which updates stopped.
+
 For a month-precision minimum guarantee:
 
 - During the named month: “The guaranteed support window ends this month.”
@@ -125,6 +129,24 @@ All consumers migrate together: pipeline sentence generation, P4 facts/status/
 FAQ/JSON-LD, homepage checker and fallback, directory table/static/fallback,
 timeline, longest-supported, losing-updates, SEO descriptions and explanatory
 metadata.
+
+### Cross-consumer conformance cases
+
+Every implementation uses the same semantic cases even when its internal state
+names differ (`ending`/`soon`/`warn`, for example):
+
+| Evidence | Evaluation date | Required result |
+|---|---|---|
+| Exact-day endpoint `2026-09-30` | `2026-09-30` | Still within support; the date is the final supported calendar day. |
+| Exact-day endpoint `2026-09-30` | `2026-10-01` | Ended. |
+| Month guarantee `2026-10` | `2026-09-30` | Guarantee window ending; display October 2026 with no day. |
+| Month guarantee `2026-10` | any day in October | “The guaranteed support window ends this month”; no day or countdown. |
+| Month guarantee `2026-10` | `2026-11-01` | Guarantee elapsed, not confirmed ended. |
+| Month guarantee plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; retain the guarantee month as context, but do not infer a stop day. |
+| Exact-day endpoint plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; retain the published date as context, but do not claim that the observation proves the stop occurred on that date. |
+| Unknown precision plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; historical cutoff remains unknown. |
+| Unknown precision without a settling observation | any date | Current status unknown; do not fall back to the legacy `eol`. |
+| No `support_window` | any date | Backward-compatible exact-day handling of legacy `eol`. |
 
 ## Validation and rollout gates
 

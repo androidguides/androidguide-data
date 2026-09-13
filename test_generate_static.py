@@ -1,6 +1,11 @@
+import json
+from pathlib import Path
+import tempfile
 import unittest
 from datetime import date
+from unittest.mock import patch
 
+import generate_static
 from generate_static import is_ended, sentence
 from support_status import support_date_text, support_sentence, support_state
 
@@ -71,6 +76,26 @@ class PrecisionAwareStatusTests(unittest.TestCase):
         },
         "support_observation": {"status": "no_longer_receives_updates"},
     }
+    PIXEL_UNVERIFIED = {
+        "brand": "Google",
+        "model": "Pixel Example",
+        "released": "2020-10-15",
+        "eol": "2023-11-05",
+        "support_window": {
+            "published_value": None,
+            "precision": "unknown",
+            "basis": "aggregator",
+            "meaning": "estimate",
+            "raw_upstream_value": "2023-11-05",
+            "provenance": {
+                "source_url": "https://endoflife.date/api/pixel.json",
+                "checked_on": "2026-09-11",
+                "market": "US",
+                "model_codes": [],
+                "note": "No current observation settles this record's support state.",
+            },
+        },
+    }
 
     def test_policy_month_is_not_converted_to_an_exact_day(self):
         self.assertEqual("ending", support_state(self.PIXEL_6, date(2026, 10, 31)))
@@ -96,9 +121,52 @@ class PrecisionAwareStatusTests(unittest.TestCase):
     def test_historical_observation_does_not_invent_a_cutoff_date(self):
         self.assertEqual("ended", support_state(self.PIXEL_5, date(2026, 9, 11)))
         text = support_sentence(self.PIXEL_5, date(2026, 9, 11))
-        self.assertIn("no longer receiving", text)
+        self.assertIn("no longer receives", text)
         self.assertIn("exact historical cutoff date is not established", text)
         self.assertNotIn("November 5", text)
+
+    def test_unknown_precision_without_observation_stays_unknown(self):
+        self.assertEqual(
+            "unknown",
+            support_state(self.PIXEL_UNVERIFIED, date(2026, 9, 11)),
+        )
+        text = support_sentence(self.PIXEL_UNVERIFIED, date(2026, 9, 11))
+        self.assertIn("status", text)
+        self.assertIn("not established", text)
+        self.assertNotIn("November 5", text)
+        self.assertNotIn("ended on", text)
+
+    def test_month_precision_with_ended_observation_prioritizes_current_state(self):
+        record = json.loads(json.dumps(self.PIXEL_6))
+        record["support_observation"]["status"] = "no_longer_receives_updates"
+        text = support_sentence(record, date(2026, 12, 2))
+        self.assertEqual("ended", support_state(record, date(2026, 12, 2)))
+        self.assertIn("no longer receives", text)
+        self.assertIn("October 2026", text)
+        self.assertIn("exact stop day is not established", text)
+        self.assertNotIn("ends in", text)
+        self.assertNotIn("ends this month", text)
+
+    def test_day_precision_with_ended_observation_does_not_invent_stop_day(self):
+        record = {
+            "brand": "Samsung",
+            "model": "Galaxy Example",
+            "released": "2025-01-01",
+            "eol": "2030-12-31",
+            "support_window": {
+                "published_value": "2030-12-31",
+                "precision": "day",
+                "basis": "manufacturer_published",
+                "meaning": "scheduled_endpoint",
+            },
+            "support_observation": {"status": "removed_from_support_scope"},
+        }
+        text = support_sentence(record, date(2026, 9, 13))
+        self.assertEqual("ended", support_state(record, date(2026, 9, 13)))
+        self.assertIn("no longer receives", text)
+        self.assertIn("published support date", text)
+        self.assertIn("does not establish the exact stop day", text)
+        self.assertNotIn("ended on", text)
 
     def test_regional_override_list_sentence_keeps_qualifier_with_date(self):
         record = {
@@ -130,6 +198,30 @@ class PrecisionAwareStatusTests(unittest.TestCase):
             "no US endpoint published</span>",
             rendered,
         )
+
+
+class StaticGenerationDateTests(unittest.TestCase):
+    def test_generated_date_controls_status_and_visible_as_of_date(self):
+        record = json.loads(json.dumps(PrecisionAwareStatusTests.PIXEL_6))
+        record["support_window"]["published_value"] = "2099-10"
+        record["eol"] = "2099-10-01"
+        payload = {
+            "schema_version": "1.1",
+            "generated": "2099-10-15",
+            "devices": [record],
+        }
+        with tempfile.TemporaryDirectory() as tempdir:
+            source = Path(tempdir) / "devices.json"
+            output = Path(tempdir) / "devices-static.html"
+            source.write_text(json.dumps(payload), encoding="utf-8")
+            with patch.object(generate_static, "INPUT", source), patch.object(
+                generate_static, "OUTPUT", output
+            ):
+                self.assertEqual(0, generate_static.main())
+            rendered = output.read_text(encoding="utf-8")
+        self.assertIn("As of October 15, 2099", rendered)
+        self.assertIn("ends this month", rendered)
+        self.assertNotIn("has elapsed", rendered)
 
 
 if __name__ == "__main__":

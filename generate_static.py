@@ -57,7 +57,7 @@ def sentence(d: dict, today: date) -> str:
 def main() -> int:
     data = json.loads(INPUT.read_text())
     devices = sorted(data["devices"], key=lambda x: x["released"], reverse=True)
-    today = date.today()
+    today = date.fromisoformat(data["generated"])
 
     n = len(devices)
     brands = {}
@@ -66,10 +66,14 @@ def main() -> int:
         "ending": 0,
         "guarantee_elapsed": 0,
         "ended": 0,
+        "unknown": 0,
     }
     for d in devices:
         brands[d["brand"]] = brands.get(d["brand"], 0) + 1
-        counts[support_state(d, today)] += 1
+        state = support_state(d, today)
+        if state not in counts:
+            raise ValueError(f"unhandled support state: {state}")
+        counts[state] += 1
     brand_txt = ", ".join(f"{v} {k}" for k, v in sorted(brands.items()))
 
     items = "\n".join(sentence(d, today) for d in devices)
@@ -78,7 +82,8 @@ def main() -> int:
   <h2>Android security update end dates — full list</h2>
   <p>As of {human(data['generated'])}, AndroidGuides.com tracks {n} Android devices ({brand_txt}):
   {counts['supported']} have a stated support window beyond 12 months, {counts['ending']} have a stated support window ending within 12 months,
-  {counts['guarantee_elapsed']} have passed their stated guarantee period without a confirmed stop, and {counts['ended']} are confirmed no longer supported.
+  {counts['guarantee_elapsed']} have passed their stated guarantee period without a confirmed stop, {counts['ended']} are confirmed no longer supported,
+  and {counts['unknown']} have insufficient evidence for a current status.
   Data refreshes monthly from manufacturer commitments and endoflife.date.</p>
   <details>
   <summary>Show all {n} devices as a plain text list</summary>
@@ -92,7 +97,8 @@ def main() -> int:
     print(
         f"[OK] wrote {OUTPUT} ({n} sentences; "
         f"{counts['supported']} supported / {counts['ending']} ending / "
-        f"{counts['guarantee_elapsed']} guarantee elapsed / {counts['ended']} ended)"
+        f"{counts['guarantee_elapsed']} guarantee elapsed / {counts['ended']} ended / "
+        f"{counts['unknown']} unknown)"
     )
     return 0
 
