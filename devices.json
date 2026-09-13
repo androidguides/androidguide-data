@@ -1,7 +1,7 @@
 {
- "schema_version": "1.0",
- "generated": "2026-09-01",
- "source_note": "Security-update end dates from endoflife.date's explicit EOL field where published, plus reviewed manufacturer-exact corrections in overrides.json. Android-upgrade support dates are never substituted. Auto-generated \u2014 do not hand-edit.",
+ "schema_version": "1.1",
+ "generated": "2026-09-13",
+ "source_note": "Support evidence preserves source precision and meaning. Pixel policy windows are month-level minimum guarantees, with exact-looking upstream dates retained only for compatibility. Reviewed Samsung corrections preserve their declared day or month precision; other explicit endoflife.date security dates remain day-shaped until their own precision audit. Android-upgrade dates are never substituted. Auto-generated \u2014 do not hand-edit.",
  "devices": [
   {
    "id": "google-pixel-11-pro-fold",
@@ -9,7 +9,32 @@
    "model": "Pixel 11 Pro Fold",
    "released": "2026-08-20",
    "eol": "2033-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2033-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2033-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2026-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-11-pro",
@@ -17,7 +42,32 @@
    "model": "Pixel 11 Pro",
    "released": "2026-08-20",
    "eol": "2033-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2033-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2033-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2026-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-11-pro-xl",
@@ -25,7 +75,32 @@
    "model": "Pixel 11 Pro XL",
    "released": "2026-08-20",
    "eol": "2033-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2033-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2033-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2026-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-11",
@@ -33,7 +108,32 @@
    "model": "Pixel 11",
    "released": "2026-08-20",
    "eol": "2033-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2033-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2033-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2026-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-flip8",
@@ -41,7 +141,21 @@
    "model": "Galaxy Z Flip8",
    "released": "2026-08-07",
    "eol": "2033-07-31",
-   "source": "override"
+   "source": "override",
+   "support_window": {
+    "published_value": "2033-07-31",
+    "precision": "day",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": null,
+    "provenance": {
+     "source_url": "https://www.samsung.com/sec/smartphones/galaxy-z-flip8/specs/",
+     "checked_on": "2026-08-21",
+     "market": "South Korea",
+     "model_codes": [],
+     "note": "Samsung Korea independently publishes 2033-07-31 as the security-update support deadline. The value matches endoflife.date's support/eoasFrom field, but this override relies on Samsung's security-specific specification rather than inheriting the Android-upgrades fallback; the upstream label is incomplete for this record."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-fold8",
@@ -49,7 +163,21 @@
    "model": "Galaxy Z Fold8",
    "released": "2026-08-07",
    "eol": "2033-07-31",
-   "source": "override"
+   "source": "override",
+   "support_window": {
+    "published_value": "2033-07-31",
+    "precision": "day",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": null,
+    "provenance": {
+     "source_url": "https://www.samsung.com/sec/smartphones/galaxy-z-fold8/specs/",
+     "checked_on": "2026-08-21",
+     "market": "South Korea",
+     "model_codes": [],
+     "note": "Samsung Korea independently publishes 2033-07-31 as the security-update support deadline. The value matches endoflife.date's support/eoasFrom field, but this override relies on Samsung's security-specific specification rather than inheriting the Android-upgrades fallback; the upstream label is incomplete for this record."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-fold8-ultra",
@@ -57,7 +185,21 @@
    "model": "Galaxy Z Fold8 Ultra",
    "released": "2026-08-07",
    "eol": "2033-07-31",
-   "source": "override"
+   "source": "override",
+   "support_window": {
+    "published_value": "2033-07-31",
+    "precision": "day",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": null,
+    "provenance": {
+     "source_url": "https://www.samsung.com/sec/smartphones/galaxy-z-fold8-ultra/specs/",
+     "checked_on": "2026-08-21",
+     "market": "South Korea",
+     "model_codes": [],
+     "note": "Samsung Korea independently publishes 2033-07-31 as the security-update support deadline. The value matches endoflife.date's support/eoasFrom field, but this override relies on Samsung's security-specific specification rather than inheriting the Android-upgrades fallback; the upstream label is incomplete for this record."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a27-5g",
@@ -72,16 +214,52 @@
    "brand": "Samsung",
    "model": "Galaxy A57 5G",
    "released": "2026-04-10",
-   "eol": "2032-04-10",
-   "source": "endoflife.date"
+   "eol": "2032-03-31",
+   "source": "override",
+   "support_window": {
+    "published_value": "2032-03-31",
+    "precision": "day",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": "2032-04-10",
+    "provenance": {
+     "source_url": "https://www.samsung.com/ca/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-8gb-sm-a576wdbfxac/",
+     "checked_on": "2026-09-11",
+     "market": "CA, UK",
+     "model_codes": [
+      "SM-A576W",
+      "SM-A576B"
+     ],
+     "note": "Samsung US lists this device as SM-A576U1 and states six years of security updates, but does not publish an end date. 31 March 2032 is the Security Update Period Samsung publishes for SM-A576W (Canada) and SM-A576B (UK). Applied to the US model on the basis that Samsung states the same six-year commitment for it. Corroborating source: https://www.samsung.com/uk/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbdeub/",
+     "list_qualifier": "Samsung SM-A576W/B \u2014 no US endpoint published"
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a37-5g",
    "brand": "Samsung",
    "model": "Galaxy A37 5G",
    "released": "2026-04-10",
-   "eol": "2032-04-10",
-   "source": "endoflife.date"
+   "eol": "2032-03-31",
+   "source": "override",
+   "support_window": {
+    "published_value": "2032-03-31",
+    "precision": "day",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": "2032-04-10",
+    "provenance": {
+     "source_url": "https://www.samsung.com/ca/smartphones/galaxy-a/galaxy-a37-5g-awesome-charcoal-128gb-sm-a376wzaaxac/",
+     "checked_on": "2026-09-11",
+     "market": "CA, UK, LATAM",
+     "model_codes": [
+      "SM-A376W",
+      "SM-A376B"
+     ],
+     "note": "Samsung US lists this device as SM-A376U and states six years of security updates, but does not publish an end date. 31 March 2032 is the Security Update Period Samsung publishes for SM-A376W (Canada) and SM-A376B (UK, Latin America). Applied to the US model on the basis that Samsung states the same six-year commitment for it. Corroborating sources: https://www.samsung.com/uk/smartphones/galaxy-a/galaxy-a37-5g-awesome-lavender-256gb-sm-a376blvgeub/ https://www.samsung.com/latin_en/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-256gb-sm-a376bdgkgto/",
+     "list_qualifier": "Samsung SM-A376W/B \u2014 no US endpoint published"
+    }
+   }
   },
   {
    "id": "samsung-galaxy-s26-ultra",
@@ -113,7 +291,32 @@
    "model": "Pixel 10a",
    "released": "2026-03-05",
    "eol": "2033-03-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2033-03",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2033-03-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2026-03 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a07-5g",
@@ -129,7 +332,32 @@
    "model": "Pixel 10 Pro Fold",
    "released": "2025-10-04",
    "eol": "2032-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2032-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2032-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2025-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-s25-fe",
@@ -153,7 +381,32 @@
    "model": "Pixel 10 Pro",
    "released": "2025-08-28",
    "eol": "2032-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2032-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2032-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2025-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-10-pro-xl",
@@ -161,7 +414,32 @@
    "model": "Pixel 10 Pro XL",
    "released": "2025-08-28",
    "eol": "2032-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2032-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2032-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2025-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-10",
@@ -169,7 +447,32 @@
    "model": "Pixel 10",
    "released": "2025-08-28",
    "eol": "2032-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2032-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2032-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2025-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a17-5g",
@@ -225,7 +528,32 @@
    "model": "Pixel 9a",
    "released": "2025-04-10",
    "eol": "2032-04-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2032-04",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2032-04-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2025-04 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a56-5g",
@@ -321,7 +649,32 @@
    "model": "Pixel 9 Pro Fold",
    "released": "2024-09-04",
    "eol": "2031-09-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2031-09",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2031-09-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2024-09 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-9-pro",
@@ -329,7 +682,32 @@
    "model": "Pixel 9 Pro",
    "released": "2024-09-04",
    "eol": "2031-09-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2031-09",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2031-09-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2024-09 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-9-pro-xl",
@@ -337,7 +715,32 @@
    "model": "Pixel 9 Pro XL",
    "released": "2024-08-22",
    "eol": "2031-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2031-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2031-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2024-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-9",
@@ -345,7 +748,32 @@
    "model": "Pixel 9",
    "released": "2024-08-22",
    "eol": "2031-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2031-08",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2031-08-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2024-08 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a06",
@@ -377,7 +805,32 @@
    "model": "Pixel 8a",
    "released": "2024-05-14",
    "eol": "2031-05-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2031-05",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2031-05-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2024-05 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a55-5g",
@@ -465,7 +918,32 @@
    "model": "Pixel 8 Pro",
    "released": "2023-10-04",
    "eol": "2030-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2030-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2030-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2023-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-8",
@@ -473,7 +951,32 @@
    "model": "Pixel 8",
    "released": "2023-10-04",
    "eol": "2030-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2030-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2030-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2023-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-fold5",
@@ -497,7 +1000,32 @@
    "model": "Pixel Fold",
    "released": "2023-06-28",
    "eol": "2028-06-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2028-06",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2028-06-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2023-06 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a14",
@@ -513,7 +1041,32 @@
    "model": "Pixel 7a",
    "released": "2023-05-10",
    "eol": "2028-05-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2028-05",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2028-05-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2023-05 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a24",
@@ -577,7 +1130,32 @@
    "model": "Pixel 7 Pro",
    "released": "2022-10-13",
    "eol": "2027-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2027-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2027-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2022-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-7",
@@ -585,7 +1163,32 @@
    "model": "Pixel 7",
    "released": "2022-10-13",
    "eol": "2027-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2027-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2027-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2022-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a23-5g",
@@ -593,7 +1196,21 @@
    "brand": "Samsung",
    "model": "Galaxy A23 5G",
    "released": "2022-09-02",
-   "eol": "2026-09-30"
+   "eol": "2026-09-30",
+   "support_window": {
+    "published_value": "2026-09-30",
+    "precision": "day",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": null,
+    "provenance": {
+     "source_url": "https://www.samsung.com/uk/business/smartphones/galaxy-a/galaxy-a23-5g-awesome-blue-64gb-sm-a236blbueub/",
+     "checked_on": "2026-08-21",
+     "market": "UK publication; US-sold model scope",
+     "model_codes": [],
+     "note": "Samsung UK publishes 30 September 2026 as the exact security-update end. The dataset is scoped to US-sold models; Samsung US material promises four years of security updates but does not publish an exact end date."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-fold4",
@@ -617,7 +1234,32 @@
    "model": "Pixel 6a",
    "released": "2022-07-28",
    "eol": "2027-07-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2027-07",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2027-07-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2022-07 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a13-sm-a137",
@@ -737,7 +1379,32 @@
    "model": "Pixel 6 Pro",
    "released": "2021-10-28",
    "eol": "2026-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2026-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2026-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2021-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "google-pixel-6",
@@ -745,23 +1412,76 @@
    "model": "Pixel 6",
    "released": "2021-10-28",
    "eol": "2026-10-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": "2026-10",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2026-10-01",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Calculated from Google's update-policy duration and the Google Store US availability month 2021-10 published at https://support.google.com/pixelphone/answer/15738422; no exact final patch day is published."
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model under its update policy."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-fold3-5g",
-   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy Z Fold3 5G",
    "released": "2021-08-27",
-   "eol": "2026-08-31"
+   "eol": "2026-08-31",
+   "source": "override",
+   "support_window": {
+    "published_value": "2026-08",
+    "precision": "month",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": null,
+    "provenance": {
+     "source_url": "https://security.samsungmobile.com/workScope.smsb",
+     "checked_on": "2026-08-30",
+     "market": "Global security scope; Swiss B2B corroboration",
+     "model_codes": [],
+     "note": "Samsung's live security scope still lists Galaxy Z Fold3 5G for quarterly updates on 2026-08-30. A Samsung B2B lifecycle document dated 2024 publishes its SMR End as 2026-08; the dataset normalizes that manufacturer-published month to its final day, 2026-08-31. The device is supported on 2026-08-30 and becomes ended on 2026-09-01."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-flip3-5g",
-   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy Z Flip3 5G",
    "released": "2021-08-27",
-   "eol": "2026-08-31"
+   "eol": "2026-08-31",
+   "source": "override",
+   "support_window": {
+    "published_value": "2026-08",
+    "precision": "month",
+    "basis": "manufacturer_published",
+    "meaning": "scheduled_endpoint",
+    "raw_upstream_value": null,
+    "provenance": {
+     "source_url": "https://security.samsungmobile.com/workScope.smsb",
+     "checked_on": "2026-08-30",
+     "market": "Global security scope; Swiss B2B corroboration",
+     "model_codes": [],
+     "note": "Samsung's live security scope still lists Galaxy Z Flip3 5G for quarterly updates on 2026-08-30. A Samsung B2B lifecycle document dated 2024 publishes its SMR End as 2026-08; the dataset normalizes that manufacturer-published month to its final day, 2026-08-31. The device is supported on 2026-08-30 and becomes ended on 2026-09-01."
+    }
+   }
   },
   {
    "id": "google-pixel-5a",
@@ -769,7 +1489,32 @@
    "model": "Pixel 5a",
    "released": "2021-08-26",
    "eol": "2024-08-01",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2024-08-01",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a22-5g",
@@ -873,7 +1618,32 @@
    "model": "Pixel 4a (5G)",
    "released": "2020-11-05",
    "eol": "2023-11-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2023-11-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-z-fold2-5g",
@@ -889,7 +1659,32 @@
    "model": "Pixel 5",
    "released": "2020-10-15",
    "eol": "2023-11-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2023-11-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-s20-fe-5g",
@@ -913,7 +1708,32 @@
    "model": "Pixel 4a",
    "released": "2020-08-20",
    "eol": "2023-08-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2023-08-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a51-5g-uw",
@@ -1001,7 +1821,32 @@
    "model": "Pixel 4 XL",
    "released": "2019-10-24",
    "eol": "2022-10-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2022-10-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-4",
@@ -1009,7 +1854,32 @@
    "model": "Pixel 4",
    "released": "2019-10-24",
    "eol": "2022-10-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2022-10-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-3a-xl",
@@ -1017,7 +1887,32 @@
    "model": "Pixel 3a XL",
    "released": "2019-05-15",
    "eol": "2022-05-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2022-05-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-3a",
@@ -1025,7 +1920,32 @@
    "model": "Pixel 3a",
    "released": "2019-05-15",
    "eol": "2022-05-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2022-05-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a50",
@@ -1065,7 +1985,32 @@
    "model": "Pixel 3 XL",
    "released": "2018-10-18",
    "eol": "2021-10-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2021-10-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-3",
@@ -1073,7 +2018,32 @@
    "model": "Pixel 3",
    "released": "2018-10-18",
    "eol": "2021-10-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2021-10-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-2-xl",
@@ -1081,7 +2051,32 @@
    "model": "Pixel 2 XL",
    "released": "2017-10-17",
    "eol": "2020-10-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2020-10-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-2",
@@ -1089,7 +2084,32 @@
    "model": "Pixel 2",
    "released": "2017-10-17",
    "eol": "2020-10-05",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2020-10-05",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel-xl",
@@ -1097,7 +2117,32 @@
    "model": "Pixel XL",
    "released": "2016-10-20",
    "eol": "2019-10-06",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2019-10-06",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   },
   {
    "id": "google-pixel",
@@ -1105,7 +2150,32 @@
    "model": "Pixel",
    "released": "2016-10-20",
    "eol": "2019-10-06",
-   "source": "endoflife.date"
+   "source": "endoflife.date",
+   "support_window": {
+    "published_value": null,
+    "precision": "unknown",
+    "basis": "aggregator",
+    "meaning": "estimate",
+    "raw_upstream_value": "2019-10-06",
+    "provenance": {
+     "source_url": "https://endoflife.date/api/pixel.json",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "The raw exact-looking date is retained for compatibility but is not attributed to Google; current Google evidence does not establish the historical cutoff day."
+    }
+   },
+   "support_observation": {
+    "status": "no_longer_receives_updates",
+    "observed_on": "2026-09-11",
+    "provenance": {
+     "source_url": "https://support.google.com/pixelphone/answer/4457705",
+     "checked_on": "2026-09-11",
+     "market": "US",
+     "model_codes": [],
+     "note": "Google currently lists this model as no longer receiving Android version or security updates; this observation does not establish the historical stop date."
+    }
+   }
   }
  ]
 }
