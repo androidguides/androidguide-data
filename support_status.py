@@ -73,8 +73,33 @@ def support_sentence(record: dict, as_of: date) -> str:
     state = support_state(record, as_of)
     name = f"{record['brand']} {record['model']}"
     window = record.get("support_window") or {}
+    precision = window.get("precision")
+    observation = record.get("support_observation") or {}
+    observed_ended = observation.get("status") in {
+        "no_longer_receives_updates",
+        "removed_from_support_scope",
+    }
 
-    if window.get("precision") == "month":
+    if state == "ended" and observed_ended:
+        if precision == "month":
+            return (
+                f"Current manufacturer evidence shows that the {name} no longer "
+                f"receives security updates; its stated minimum guarantee was through "
+                f"{support_date_text(record)}, and the exact stop day is not established here."
+            )
+        if precision == "unknown":
+            return (
+                f"Current manufacturer evidence shows that the {name} no longer "
+                "receives security updates; its exact historical cutoff date is not "
+                "established here."
+            )
+        return (
+            f"Current manufacturer evidence shows that the {name} no longer receives "
+            f"security updates; its published support date is {support_date_text(record)}, "
+            "but the observation does not establish the exact stop day."
+        )
+
+    if precision == "month":
         label = support_date_text(record)
         if state == "guarantee_elapsed":
             return f"The stated security-update guarantee period for the {name} has elapsed ({label})."
@@ -82,9 +107,7 @@ def support_sentence(record: dict, as_of: date) -> str:
             return f"The guaranteed security-update window for the {name} ends this month ({label})."
         return f"The guaranteed security-update window for the {name} ends in {label}."
 
-    if window.get("precision") == "unknown":
-        if state == "ended":
-            return f"Google currently lists the {name} as no longer receiving security updates; its exact historical cutoff date is not established here."
+    if precision == "unknown":
         return f"The current security-update status of the {name} is not established here; its exact support-end date is also unknown."
 
     label = support_date_text(record)
