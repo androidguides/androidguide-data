@@ -3,7 +3,7 @@
 from datetime import date, datetime
 
 
-STATES = {"supported", "ending", "guarantee_elapsed", "ended"}
+STATES = {"supported", "ending", "guarantee_elapsed", "ended", "unknown"}
 MONTHS = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
@@ -43,6 +43,9 @@ def support_state(record: dict, as_of: date) -> str:
             return "ending"
         return "supported"
 
+    if window.get("precision") == "unknown":
+        return "unknown"
+
     eol = _day(record["eol"])
     days = (eol - as_of).days
     if days < 0:
@@ -79,8 +82,10 @@ def support_sentence(record: dict, as_of: date) -> str:
             return f"The guaranteed security-update window for the {name} ends this month ({label})."
         return f"The guaranteed security-update window for the {name} ends in {label}."
 
-    if window.get("precision") == "unknown" and state == "ended":
-        return f"Google currently lists the {name} as no longer receiving security updates; its exact historical cutoff date is not established here."
+    if window.get("precision") == "unknown":
+        if state == "ended":
+            return f"Google currently lists the {name} as no longer receiving security updates; its exact historical cutoff date is not established here."
+        return f"The current security-update status of the {name} is not established here; its exact support-end date is also unknown."
 
     label = support_date_text(record)
     if state == "ended":

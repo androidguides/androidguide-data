@@ -71,6 +71,18 @@ class PrecisionAwareStatusTests(unittest.TestCase):
         },
         "support_observation": {"status": "no_longer_receives_updates"},
     }
+    PIXEL_UNVERIFIED = {
+        "brand": "Google",
+        "model": "Pixel Example",
+        "released": "2020-10-15",
+        "eol": "2023-11-05",
+        "support_window": {
+            "published_value": None,
+            "precision": "unknown",
+            "basis": "aggregator",
+            "meaning": "estimate",
+        },
+    }
 
     def test_policy_month_is_not_converted_to_an_exact_day(self):
         self.assertEqual("ending", support_state(self.PIXEL_6, date(2026, 10, 31)))
@@ -99,6 +111,17 @@ class PrecisionAwareStatusTests(unittest.TestCase):
         self.assertIn("no longer receiving", text)
         self.assertIn("exact historical cutoff date is not established", text)
         self.assertNotIn("November 5", text)
+
+    def test_unknown_precision_without_observation_stays_unknown(self):
+        self.assertEqual(
+            "unknown",
+            support_state(self.PIXEL_UNVERIFIED, date(2026, 9, 11)),
+        )
+        text = support_sentence(self.PIXEL_UNVERIFIED, date(2026, 9, 11))
+        self.assertIn("status", text)
+        self.assertIn("not established", text)
+        self.assertNotIn("November 5", text)
+        self.assertNotIn("ended on", text)
 
     def test_regional_override_list_sentence_keeps_qualifier_with_date(self):
         record = {

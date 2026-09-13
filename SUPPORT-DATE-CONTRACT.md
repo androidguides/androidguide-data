@@ -126,6 +126,22 @@ FAQ/JSON-LD, homepage checker and fallback, directory table/static/fallback,
 timeline, longest-supported, losing-updates, SEO descriptions and explanatory
 metadata.
 
+### Cross-consumer conformance cases
+
+Every implementation uses the same semantic cases even when its internal state
+names differ (`ending`/`soon`/`warn`, for example):
+
+| Evidence | Evaluation date | Required result |
+|---|---|---|
+| Exact-day endpoint `2026-09-30` | `2026-09-30` | Still within support; the date is the final supported calendar day. |
+| Exact-day endpoint `2026-09-30` | `2026-10-01` | Ended. |
+| Month guarantee `2026-10` | `2026-09-30` | Guarantee window ending; display October 2026 with no day. |
+| Month guarantee `2026-10` | any day in October | “The guaranteed support window ends this month”; no day or countdown. |
+| Month guarantee `2026-10` | `2026-11-01` | Guarantee elapsed, not confirmed ended. |
+| Unknown precision plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; historical cutoff remains unknown. |
+| Unknown precision without a settling observation | any date | Current status unknown; do not fall back to the legacy `eol`. |
+| No `support_window` | any date | Backward-compatible exact-day handling of legacy `eol`. |
+
 ## Validation and rollout gates
 
 The executable contract in `support_contract.py` and
