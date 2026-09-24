@@ -1,5 +1,6 @@
 """Shared support-state and display rules for generated consumers."""
 
+import re
 from datetime import date, datetime
 
 
@@ -14,7 +15,12 @@ def _day(value: str) -> date:
     return datetime.fromisoformat(value).date()
 
 
-def _month(value: str) -> tuple[int, int]:
+def _month(value: object) -> tuple[int, int] | None:
+    """Parse a published YYYY-MM value, degrading safely on bad metadata."""
+    if not isinstance(value, str) or not re.fullmatch(
+        r"\d{4}-(0[1-9]|1[0-2])", value
+    ):
+        return None
     year, month = value.split("-")
     return int(year), int(month)
 
@@ -37,7 +43,9 @@ def support_state(record: dict, as_of: date) -> str:
     window = record.get("support_window") or {}
     if window.get("meaning") == "up_to":
         if window.get("precision") == "month":
-            target = _month(window["published_value"])
+            target = _month(window.get("published_value"))
+            if target is None:
+                return "unknown"
             return (
                 "supported"
                 if listed_current and month_distance(as_of, target) >= 0
@@ -45,7 +53,9 @@ def support_state(record: dict, as_of: date) -> str:
             )
         return "supported" if listed_current else "unknown"
     if window.get("precision") == "month":
-        target = _month(window["published_value"])
+        target = _month(window.get("published_value"))
+        if target is None:
+            return "unknown"
         distance = month_distance(as_of, target)
         if distance < 0:
             return "guarantee_elapsed"
@@ -69,7 +79,10 @@ def support_date_text(record: dict) -> str:
     """Return a truthful human date label for the evidence precision."""
     window = record.get("support_window") or {}
     if window.get("precision") == "month":
-        year, month = _month(window["published_value"])
+        target = _month(window.get("published_value"))
+        if target is None:
+            return "Exact end date not established"
+        year, month = target
         return f"{MONTHS[month - 1]} {year} — exact end date not specified"
     if window.get("precision") == "unknown":
         return "Exact end date not established"
@@ -84,6 +97,11 @@ def support_sentence(record: dict, as_of: date) -> str:
     name = f"{record['brand']} {record['model']}"
     window = record.get("support_window") or {}
     precision = window.get("precision")
+    month_target = (
+        _month(window.get("published_value")) if precision == "month" else None
+    )
+    if precision == "month" and month_target is None:
+        precision = "unknown"
     observation = record.get("support_observation") or {}
     observed_ended = observation.get("status") in {
         "no_longer_receives_updates",
@@ -126,7 +144,7 @@ def support_sentence(record: dict, as_of: date) -> str:
             )
         if state == "guarantee_elapsed":
             return f"The stated security-update guarantee period for the {name} has elapsed ({label})."
-        if month_distance(as_of, _month(window["published_value"])) == 0:
+        if month_distance(as_of, month_target) == 0:
             return f"The guaranteed security-update window for the {name} ends this month ({label})."
         return f"The guaranteed security-update window for the {name} ends in {label}."
 
