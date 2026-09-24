@@ -149,6 +149,22 @@ class PrecisionAwareStatusTests(unittest.TestCase):
         self.assertIn("exact support-end date is not published", text)
         self.assertNotIn("November 5", text)
 
+    def test_malformed_month_metadata_degrades_to_unknown_without_legacy_fallback(self):
+        for published_value in (None, "2028-04-01", "not-a-month", "2028-13"):
+            with self.subTest(published_value=published_value):
+                record = json.loads(json.dumps(self.PIXEL_6))
+                record["support_window"]["published_value"] = published_value
+
+                self.assertEqual("unknown", support_state(record, date(2026, 9, 24)))
+                self.assertEqual(
+                    "Exact end date not established",
+                    support_date_text(record),
+                )
+                text = support_sentence(record, date(2026, 9, 24))
+                self.assertIn("exact support-end date is not published", text)
+                self.assertNotIn("October 1", text)
+                self.assertNotIn("ends in", text)
+
     def test_up_to_month_is_not_rendered_as_a_guarantee_or_endpoint(self):
         record = json.loads(json.dumps(self.PIXEL_6))
         record["brand"] = "Samsung"
