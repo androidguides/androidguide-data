@@ -164,10 +164,21 @@ class OverrideProvenanceTests(unittest.TestCase):
         overrides = json.loads(
             (root / "overrides.json").read_text(encoding="utf-8")
         )["overrides"]
-        before = {item["id"]: item["eol"] for item in current}
+        # devices.json now contains the generated, post-override values. Rebuild
+        # only the two upstream anniversary dates this test is meant to exercise;
+        # otherwise applying the overrides is correctly idempotent and there is
+        # no before/after change to assert.
+        upstream = [dict(item) for item in current]
+        for item in upstream:
+            if item["id"] in {
+                "samsung-galaxy-a37-5g",
+                "samsung-galaxy-a57-5g",
+            }:
+                item["eol"] = "2032-04-10"
+        before = {item["id"]: item["eol"] for item in upstream}
 
         result = apply_overrides(
-            [dict(item) for item in current], entries=overrides
+            upstream, entries=overrides
         )
         after = {item["id"]: item["eol"] for item in result}
         changed = sorted(
