@@ -27,6 +27,7 @@ def month_distance(start: date, target: tuple[int, int]) -> int:
 def support_state(record: dict, as_of: date) -> str:
     """Classify support without inventing precision or an observed stop."""
     observation = record.get("support_observation") or {}
+    listed_current = observation.get("status") == "listed_under_current_policy"
     if observation.get("status") in {
         "no_longer_receives_updates",
         "removed_from_support_scope",
@@ -34,6 +35,15 @@ def support_state(record: dict, as_of: date) -> str:
         return "ended"
 
     window = record.get("support_window") or {}
+    if window.get("meaning") == "up_to":
+        if window.get("precision") == "month":
+            target = _month(window["published_value"])
+            return (
+                "supported"
+                if listed_current and month_distance(as_of, target) >= 0
+                else "unknown"
+            )
+        return "supported" if listed_current else "unknown"
     if window.get("precision") == "month":
         target = _month(window["published_value"])
         distance = month_distance(as_of, target)
@@ -44,7 +54,7 @@ def support_state(record: dict, as_of: date) -> str:
         return "supported"
 
     if window.get("precision") == "unknown":
-        return "unknown"
+        return "supported" if listed_current else "unknown"
 
     eol = _day(record["eol"])
     days = (eol - as_of).days
@@ -101,6 +111,19 @@ def support_sentence(record: dict, as_of: date) -> str:
 
     if precision == "month":
         label = support_date_text(record)
+        if window.get("meaning") == "up_to":
+            month_label = label.split(" —", 1)[0]
+            if state == "supported":
+                return (
+                    f"Current manufacturer evidence lists the {name} for security "
+                    f"updates. The published support duration may run up to {month_label}; "
+                    "an exact endpoint is not published."
+                )
+            return (
+                f"The manufacturer describes security support for the {name} as "
+                f"running up to {month_label}; current support status is not established "
+                "here."
+            )
         if state == "guarantee_elapsed":
             return f"The stated security-update guarantee period for the {name} has elapsed ({label})."
         if month_distance(as_of, _month(window["published_value"])) == 0:
@@ -108,6 +131,11 @@ def support_sentence(record: dict, as_of: date) -> str:
         return f"The guaranteed security-update window for the {name} ends in {label}."
 
     if precision == "unknown":
+        if observation.get("status") == "listed_under_current_policy":
+            return (
+                f"Current manufacturer evidence lists the {name} for security updates; "
+                "its exact support-end date is not published."
+            )
         return f"The current security-update status of the {name} is not established here; its exact support-end date is also unknown."
 
     label = support_date_text(record)

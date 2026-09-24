@@ -156,7 +156,7 @@ class OverrideProvenanceTests(unittest.TestCase):
         self.assertEqual([], failures)
         self.assertEqual([], result)
 
-    def test_a37_and_a57_overrides_replace_only_the_two_anniversary_dates(self):
+    def test_reviewed_date_overrides_replace_only_the_expected_anniversary_dates(self):
         root = Path(__file__).parent
         current = json.loads(
             (root / "devices.json").read_text(encoding="utf-8")
@@ -186,7 +186,11 @@ class OverrideProvenanceTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            ["samsung-galaxy-a37-5g", "samsung-galaxy-a57-5g"],
+            [
+                "samsung-galaxy-a37-5g",
+                "samsung-galaxy-a54-5g",
+                "samsung-galaxy-a57-5g",
+            ],
             changed,
         )
         for device_id, qualifier in (
@@ -207,6 +211,54 @@ class OverrideProvenanceTests(unittest.TestCase):
             self.assertEqual("day", window["precision"])
             self.assertEqual("2032-04-10", window["raw_upstream_value"])
             self.assertEqual(qualifier, window["provenance"]["list_qualifier"])
+
+    def test_reviewed_precision_metadata_overrides_anniversary_display_semantics(self):
+        record = {
+            "id": "samsung-galaxy-a14-5g",
+            "brand": "Samsung",
+            "model": "Galaxy A14 5G",
+            "released": "2023-01-05",
+            "eol": "2027-01-05",
+            "source": "endoflife.date",
+        }
+        window = {
+            "published_value": "2027-01",
+            "precision": "month",
+            "basis": "policy_calculation",
+            "meaning": "minimum_guarantee",
+            "raw_upstream_value": "2027-01-05",
+            "provenance": {
+                "source_url": "https://example.com/window",
+                "checked_on": "2026-09-24",
+                "market": "US",
+                "model_codes": ["SM-A146U"],
+                "note": "The source publishes a duration, not an exact endpoint.",
+            },
+        }
+        observation = {
+            "status": "listed_under_current_policy",
+            "observed_on": "2026-09-24",
+            "provenance": {
+                "source_url": "https://example.com/scope",
+                "checked_on": "2026-09-24",
+                "market": "Global",
+                "model_codes": ["SM-A146U"],
+                "note": "The model is currently listed for updates.",
+            },
+        }
+
+        result = apply_overrides([record], entries=[{
+            "id": record["id"],
+            "fields": {},
+            "support_window": window,
+            "support_observation": observation,
+            "reason": "Reviewed precision correction.",
+        }])
+
+        self.assertEqual("override", result[0]["source"])
+        self.assertEqual("2027-01-05", result[0]["eol"])
+        self.assertEqual(window, result[0]["support_window"])
+        self.assertEqual(observation, result[0]["support_observation"])
 
 
 class PixelSupportMetadataTests(unittest.TestCase):

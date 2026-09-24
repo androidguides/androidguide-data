@@ -145,6 +145,8 @@ names differ (`ending`/`soon`/`warn`, for example):
 | Month guarantee plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; retain the guarantee month as context, but do not infer a stop day. |
 | Exact-day endpoint plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; retain the published date as context, but do not claim that the observation proves the stop occurred on that date. |
 | Unknown precision plus a no-longer-supported observation | any date | Confirmed no longer receiving updates; historical cutoff remains unknown. |
+| Unknown precision plus a current-policy listing | any date | Currently supported; exact endpoint remains unknown. |
+| Month-level `up_to` duration plus a current-policy listing | before a settling observation | Currently supported; show the calculated month only as an up-to duration, never as a guarantee or scheduled endpoint. |
 | Unknown precision without a settling observation | any date | Current status unknown; do not fall back to the legacy `eol`. |
 | No `support_window` | any date | Backward-compatible exact-day handling of legacy `eol`. |
 
