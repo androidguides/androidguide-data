@@ -1,5 +1,5 @@
 # PIPELINE OPS — Guarded Pipeline (P1) + Tiered Serving (P3)
-*Updated 2026-08-04.*
+*Updated 2026-09-24.*
 
 How the AndroidGuides.com data pipeline protects itself, serves data in tiers,
 how to correct bad data, and how to roll back. Written for Matt (non-developer,
@@ -34,7 +34,10 @@ workflow), `update-devices.yml` does, in order:
    date matches the repo, retrying to beat propagation lag. (Before this was
    added the purge fired too early, jsDelivr re-cached the OLD file, and the step
    reported a fake "OK" — the CDN sat 18 days stale while everything looked green.)
-8. **Push both files to WordPress** (same-origin fallback, see below), with retries.
+8. **Deliver both files to SiteGround** (same-origin copy, see below). The
+   authenticated WordPress endpoint remains primary. A persistent, explicit
+   SiteGround `sgcaptcha` response switches the complete two-file delivery to
+   folder-scoped FTPS.
 
 A second workflow, **Data staleness check**, runs every Monday and fails
 (= emails you) if repo data is over 40 days old (pipe silently dead), the
@@ -52,9 +55,10 @@ a smoke detector, not a sprinkler.
 > while the CDN was badly stale. The self-verifying purge in step 7 is now the
 > primary defense; the weekly age-check (dead-pipe detection) is still solid.
 
-> **⚠ Do not run the workflow manually more than once a day.** Several manual
-> runs in a row trigger SiteGround's firewall against the GitHub runner, which is
-> what broke the push on 2026-08-01. One run, then wait.
+> **⚠ Do not run the publishing workflow merely to test delivery.** It regenerates
+> and commits data before the delivery step. Use the separate manual
+> **Test SiteGround delivery** workflow; it tests TLS login and rename-overwrite
+> using disposable hidden files and does not touch the live pair.
 
 ## How visitors get data (tiered serving, P3)
 
@@ -75,7 +79,7 @@ answer is. The same-origin copy also carries `devices-static.html`.
 > serve stale data while the CDN looks perfectly healthy. Treat a red push step
 > as a real problem, not a cosmetic one.
 
-## The WordPress push (P3) — how it works and how to fix it
+## Same-origin delivery (P3) — how it works and how to fix it
 
 - The pipe authenticates to WordPress with an **application password** (created
   in Users → Profile → Application Passwords, named `androidguide-pipe`), stored
@@ -84,30 +88,66 @@ answer is. The same-origin copy also carries `devices-static.html`.
 - It POSTs to a small endpoint registered by a WPCode PHP snippet
   ("AndroidGuides push endpoint"): `POST /wp-json/androidguide/v1/push`. The
   endpoint only accepts the two known filenames and only an admin can call it.
-- **Retries (added 2026-08-04).** Each file gets up to `PUSH_ATTEMPTS = 3`
+- **REST retries (added 2026-08-04).** Each file gets up to `PUSH_ATTEMPTS = 3`
   attempts, `RETRY_WAIT = 60` seconds apart.
   - **Retried:** a non-JSON response (SiteGround's `sgcaptcha` challenge page),
     HTTP 5xx, HTTP 429, network/timeout errors.
   - **NOT retried:** HTTP 4xx such as bad auth or a rejected filename — those
     fail immediately instead of wasting two minutes on a problem that will not
     fix itself.
-  - A retry that works logs `succeeded on attempt N`. Persistent failure still
-    exits non-zero → red run → email. The retry absorbs transient noise without
-    ever hiding a real fault.
+  - A retry that works logs `succeeded on attempt N`.
+- **Persistent `sgcaptcha` fallback (added 2026-09-24).** The script only switches
+  transports when the response actually contains `/.well-known/sgcaptcha/`.
+  Generic non-JSON responses, bad credentials and endpoint failures do not silently
+  fall through to file transfer.
+  - FTPS uses certificate verification and encrypts both control and data channels.
+  - The SiteGround FTP account is restricted to
+    `wp-content/uploads/androidguide`, so its credentials cannot alter WordPress,
+    PHP, public root files or any other directory.
+  - Both files are uploaded under temporary names and read back for SHA-256
+    verification before either live filename changes.
+  - The script first proves that the server supports atomic rename-overwrite. If
+    promotion fails after one file moved, it attempts to restore that file's prior
+    bytes and leaves the job red.
+  - The fallback is not enabled until the four `SG_FTPS_*` secrets below exist and
+    the separate delivery preflight passes.
 - **If the "Push same-origin copy to WordPress" step goes red, check in this order:**
-  1. **Read the log.** `not JSON (firewall challenge?)` on all three attempts =
-     SiteGround's firewall, not your credentials. Usually caused by several
-     manual runs in a row. Wait a few hours and run once.
+  1. **Read the log.** An explicit `SiteGround sgcaptcha challenge` means the HTTP
+     request was intercepted before WordPress. On 2026-09-13 all attempts from
+     runner IP `48.214.53.179` received HTTP 202 challenge pages. Waiting and
+     retrying from that same job did not clear it.
   2. **HTTP 401/403** = the application password. Regenerate it (Users → Profile
      → Application Passwords → delete old, add new `androidguide-pipe`) and
      update the `WP_APP_PASSWORD` secret (repo → Settings → Secrets and
      variables → Actions). Nothing else changes.
-  3. Either way the CDN path keeps working, so visitors are fine while you fix
-     it — but the device pages are staling, so do not leave it.
+  3. **`SG_FTPS_* is not set`** = the restricted fallback account has not been
+     configured in GitHub yet. Follow the one-time setup below.
+  4. Either way the CDN path keeps working, so the directory's first tier is fine
+     while you fix it — but device pages and the device sitemap read the
+     same-origin file, so do not leave it.
 - **Verify the fix from outside:**
   `https://androidguides.com/wp-content/uploads/androidguide/devices.json?cb=1`
   should show today's `generated` date. **The `?cb=1` is required** — see the
   gotcha below.
+
+### One-time SiteGround FTPS setup
+
+1. In **Site Tools → Site → FTP Accounts**, create a dedicated account for the
+   pipeline. Give it a long unique password.
+2. Set that account's home directory to exactly
+   `public_html/wp-content/uploads/androidguide`. Do not grant site-root access.
+3. In `androidguides/androidguide-data` → **Settings → Secrets and variables →
+   Actions**, add:
+   - `SG_FTPS_HOST` — the hostname shown by SiteGround's FTP Credentials panel
+   - `SG_FTPS_USER` — the complete FTP username
+   - `SG_FTPS_PASSWORD` — the dedicated account password
+   - `SG_FTPS_PORT` — optional; omit it to use port 21
+4. Run **Actions → Test SiteGround delivery → Run workflow** once. A pass proves
+   TLS login, write/read/delete access within the restricted directory, and atomic
+   rename-overwrite. It does not change `devices.json` or `devices-static.html`.
+5. Do not run **Update device database** as a connectivity test. The next approved
+   publishing run will retain REST as primary and use FTPS only for an explicit
+   persistent `sgcaptcha` challenge.
 
 ## ⚠ Verifying anything on androidguides.com from outside
 

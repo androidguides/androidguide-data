@@ -1,0 +1,25 @@
+name: Test SiteGround delivery
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ftps-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Test folder-scoped FTPS without touching live files
+        env:
+          SG_FTPS_HOST: ${{ secrets.SG_FTPS_HOST }}
+          SG_FTPS_USER: ${{ secrets.SG_FTPS_USER }}
+          SG_FTPS_PASSWORD: ${{ secrets.SG_FTPS_PASSWORD }}
+          SG_FTPS_PORT: ${{ secrets.SG_FTPS_PORT }}
+        run: python push_to_wp.py --ftps-preflight
