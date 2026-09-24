@@ -1,8 +1,16 @@
 {
  "schema_version": "1.1",
- "generated": "2026-09-13",
+ "generated": "2026-09-24",
  "source_note": "Support evidence preserves source precision and meaning. Pixel policy windows are month-level minimum guarantees, with exact-looking upstream dates retained only for compatibility. Reviewed Samsung corrections preserve their declared day or month precision; other explicit endoflife.date security dates remain day-shaped until their own precision audit. Android-upgrade dates are never substituted. Auto-generated \u2014 do not hand-edit.",
  "devices": [
+  {
+   "id": "samsung-galaxy-s26-fe",
+   "brand": "Samsung",
+   "model": "Galaxy S26 FE",
+   "released": "2026-09-04",
+   "eol": "2033-09-04",
+   "source": "endoflife.date"
+  },
   {
    "id": "google-pixel-11-pro-fold",
    "brand": "Google",
@@ -1033,7 +1041,37 @@
    "model": "Galaxy A14",
    "released": "2023-05-22",
    "eol": "2027-05-22",
-   "source": "endoflife.date"
+   "source": "override",
+   "support_window": {
+    "published_value": "2027-05",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2027-05-22",
+    "provenance": {
+     "source_url": "https://news.samsung.com/in/samsung-launches-galaxy-a14-with-premium-design-50mp-triple-camera-and-5000mah-battery-starting-at-just-inr-12999",
+     "checked_on": "2026-09-24",
+     "market": "India duration and availability; global security scope; US retail scope unverified",
+     "model_codes": [
+      "SM-A145"
+     ],
+     "note": "Samsung India publishes four years of security updates and a 22 May 2023 launch for the regional LTE Galaxy A14. The May 2027 month is a policy calculation, not a Samsung-published final day. Samsung's current global scope lists Galaxy A14 for quarterly updates. A matching US retail model and US availability date were not established in this review.",
+     "list_qualifier": "Samsung Galaxy A14 (SM-A145) \u2014 regional commitment; US retail scope unverified"
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-24",
+    "provenance": {
+     "source_url": "https://security.samsungmobile.com/workScope.smsb",
+     "checked_on": "2026-09-24",
+     "market": "Global security scope",
+     "model_codes": [
+      "SM-A145"
+     ],
+     "note": "Samsung currently lists Galaxy A14 among models receiving quarterly security updates; the scope page does not publish a final support day."
+    }
+   }
   },
   {
    "id": "google-pixel-7a",
@@ -1081,8 +1119,42 @@
    "brand": "Samsung",
    "model": "Galaxy A54 5G",
    "released": "2023-03-24",
-   "eol": "2028-03-24",
-   "source": "endoflife.date"
+   "eol": "2028-04-01",
+   "source": "override",
+   "support_window": {
+    "published_value": "2028-04",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "up_to",
+    "raw_upstream_value": "2028-03-24",
+    "provenance": {
+     "source_url": "https://news.samsung.com/us/preorder-awesome-samsung-galaxy-a54-5g-available-starting-april-6-2023/",
+     "checked_on": "2026-09-24",
+     "market": "US",
+     "model_codes": [
+      "SM-A546U",
+      "SM-A546U1",
+      "SM-A546V"
+     ],
+     "note": "Samsung US publishes retail availability starting 6 April 2023 and describes the device as having up to five years of security updates. April 2028 is a policy-calculated up-to month, not a minimum guarantee or a Samsung-published final day. The legacy eol value is normalized into that month for sorting compatibility only.",
+     "list_qualifier": "Samsung US Galaxy A54 5G \u2014 up to five years; exact endpoint not published"
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-24",
+    "provenance": {
+     "source_url": "https://security.samsungmobile.com/workScope.smsb",
+     "checked_on": "2026-09-24",
+     "market": "Global security scope; Enterprise Models list",
+     "model_codes": [
+      "SM-A546U",
+      "SM-A546U1",
+      "SM-A546V"
+     ],
+     "note": "Samsung currently lists Galaxy A54 5G among monthly Enterprise security-update models. Cadence and timing may vary by market, carrier and model, and the scope page publishes no final support day."
+    }
+   }
   },
   {
    "id": "samsung-galaxy-a34-5g",
@@ -1122,7 +1194,37 @@
    "model": "Galaxy A14 5G",
    "released": "2023-01-05",
    "eol": "2027-01-05",
-   "source": "endoflife.date"
+   "source": "override",
+   "support_window": {
+    "published_value": "2027-01",
+    "precision": "month",
+    "basis": "policy_calculation",
+    "meaning": "minimum_guarantee",
+    "raw_upstream_value": "2027-01-05",
+    "provenance": {
+     "source_url": "https://image-us.samsung.com/SamsungUS/samsungbusiness/pdf/spec-sheets/a54/HHP_VERIZON_A145GSERIESDSHT_MAR23JH.pdf",
+     "checked_on": "2026-09-24",
+     "market": "US",
+     "model_codes": [
+      "SM-A146U"
+     ],
+     "note": "Samsung US publishes four years of security updates for Galaxy A14 5G but no exact endpoint. AT&T announced US availability starting 13 January 2023 at https://about.att.com/story/2023/samsung-galaxy-a14-5g.html. January 2027 is therefore a policy-calculated month, not a Samsung-published final day.",
+     "list_qualifier": "Samsung US Galaxy A14 5G \u2014 exact endpoint not published"
+    }
+   },
+   "support_observation": {
+    "status": "listed_under_current_policy",
+    "observed_on": "2026-09-24",
+    "provenance": {
+     "source_url": "https://security.samsungmobile.com/workScope.smsb",
+     "checked_on": "2026-09-24",
+     "market": "Global security scope; US model qualification",
+     "model_codes": [
+      "SM-A146U"
+     ],
+     "note": "Samsung currently lists Galaxy A14 5G among models receiving quarterly security updates; the scope page does not publish a final support day."
+    }
+   }
   },
   {
    "id": "google-pixel-7-pro",
