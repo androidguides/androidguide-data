@@ -136,6 +136,42 @@ class PrecisionAwareStatusTests(unittest.TestCase):
         self.assertNotIn("November 5", text)
         self.assertNotIn("ended on", text)
 
+    def test_unknown_precision_with_current_listing_is_supported_without_a_date(self):
+        record = json.loads(json.dumps(self.PIXEL_UNVERIFIED))
+        record["support_observation"] = {
+            "status": "listed_under_current_policy",
+        }
+
+        self.assertEqual("supported", support_state(record, date(2026, 9, 24)))
+        text = support_sentence(record, date(2026, 9, 24))
+        self.assertIn("current manufacturer evidence", text.lower())
+        self.assertIn("lists", text)
+        self.assertIn("exact support-end date is not published", text)
+        self.assertNotIn("November 5", text)
+
+    def test_up_to_month_is_not_rendered_as_a_guarantee_or_endpoint(self):
+        record = json.loads(json.dumps(self.PIXEL_6))
+        record["brand"] = "Samsung"
+        record["model"] = "Galaxy A54 5G"
+        record["eol"] = "2028-04-01"
+        record["support_window"].update({
+            "published_value": "2028-04",
+            "meaning": "up_to",
+            "raw_upstream_value": "2028-03-24",
+        })
+
+        self.assertEqual("supported", support_state(record, date(2026, 9, 24)))
+        text = support_sentence(record, date(2026, 9, 24))
+        self.assertIn("may run up to April 2028", text)
+        self.assertIn("exact endpoint is not published", text)
+        self.assertNotIn("guaranteed", text.lower())
+        self.assertNotIn("scheduled", text.lower())
+
+        self.assertEqual("unknown", support_state(record, date(2028, 5, 1)))
+        later = support_sentence(record, date(2028, 5, 1))
+        self.assertIn("current support status is not established", later)
+        self.assertNotIn("Current manufacturer evidence lists", later)
+
     def test_month_precision_with_ended_observation_prioritizes_current_state(self):
         record = json.loads(json.dumps(self.PIXEL_6))
         record["support_observation"]["status"] = "no_longer_receives_updates"

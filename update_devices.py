@@ -303,6 +303,19 @@ def apply_overrides(devices: list, semantic_failures=None, entries=None) -> list
                     ov["list_qualifier"]
                 )
 
+        # Precision audits may preserve the legacy eol value for compatibility
+        # while replacing its display semantics with reviewed metadata. Keep
+        # that metadata in overrides.json so the generated file remains fully
+        # reproducible; never patch generated devices.json by hand.
+        if "support_window" in ov:
+            by_id[oid]["support_window"] = json.loads(
+                json.dumps(ov["support_window"])
+            )
+        if "support_observation" in ov:
+            by_id[oid]["support_observation"] = json.loads(
+                json.dumps(ov["support_observation"])
+            )
+
         if oid in unresolved_ids:
             reviewed_basis = basis == "manufacturer_exact"
             if basis == "manufacturer_month_end" and isinstance(eol_value, str):
