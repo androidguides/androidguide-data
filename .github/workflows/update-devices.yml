@@ -67,4 +67,11 @@ jobs:
         env:
           WP_APP_USER: ${{ secrets.WP_APP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          # Folder-scoped, TLS-only fallback for SiteGround's HTTP-layer
+          # sgcaptcha challenge. The FTP account home must be exactly
+          # wp-content/uploads/androidguide.
+          SG_FTPS_HOST: ${{ secrets.SG_FTPS_HOST }}
+          SG_FTPS_USER: ${{ secrets.SG_FTPS_USER }}
+          SG_FTPS_PASSWORD: ${{ secrets.SG_FTPS_PASSWORD }}
+          SG_FTPS_PORT: ${{ secrets.SG_FTPS_PORT }}
         run: python push_to_wp.py
