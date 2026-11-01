@@ -1,6 +1,6 @@
 {
  "schema_version": "1.1",
- "generated": "2026-10-01",
+ "generated": "2026-11-01",
  "source_note": "Support evidence preserves source precision and meaning. Pixel policy windows are month-level minimum guarantees, with exact-looking upstream dates retained only for compatibility. Reviewed Samsung corrections preserve their declared day or month precision; other explicit endoflife.date security dates remain day-shaped until their own precision audit. Android-upgrade dates are never substituted. Auto-generated \u2014 do not hand-edit.",
  "devices": [
   {
@@ -1294,11 +1294,11 @@
   },
   {
    "id": "samsung-galaxy-a23-5g",
-   "source": "override",
    "brand": "Samsung",
    "model": "Galaxy A23 5G",
    "released": "2022-09-02",
    "eol": "2026-09-30",
+   "source": "override",
    "support_window": {
     "published_value": "2026-09-30",
     "precision": "day",
