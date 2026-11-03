@@ -1,5 +1,13 @@
 # androidguide-data
 
+## Prepared November 3 evidence corrections
+
+[Three-device review](priority-device-evidence-2026-11-03.md): S24 month precision,
+S25's explicit US security deadline, and reviewed retail release dates for those
+phones and Pixel 8. Corrections live in overrides and audit inputs; generated
+files remain unchanged until a guarded publication. Consumer deployment must
+follow the coordinated review described there.
+
 Device support database powering [AndroidGuides.com](https://androidguides.com/) —
 security-update status and end-of-support dates for 130+ Android phones
 (Google Pixel, Samsung Galaxy S/A/Z).

@@ -52,7 +52,7 @@
     {"id":"google-pixel-9","model":"Pixel 9","released":"2024-08-22","legacy_eol":"2031-08-01","group":"current_policy","availability_month":"2024-08","policy_years":7,"published_value":"2031-08"},
     {"id":"google-pixel-8a","model":"Pixel 8a","released":"2024-05-14","legacy_eol":"2031-05-01","group":"current_policy","availability_month":"2024-05","policy_years":7,"published_value":"2031-05"},
     {"id":"google-pixel-8-pro","model":"Pixel 8 Pro","released":"2023-10-04","legacy_eol":"2030-10-01","group":"current_policy","availability_month":"2023-10","policy_years":7,"published_value":"2030-10"},
-    {"id":"google-pixel-8","model":"Pixel 8","released":"2023-10-04","legacy_eol":"2030-10-01","group":"current_policy","availability_month":"2023-10","policy_years":7,"published_value":"2030-10"},
+    {"id":"google-pixel-8","model":"Pixel 8","released":"2023-10-12","legacy_eol":"2030-10-01","group":"current_policy","availability_month":"2023-10","policy_years":7,"published_value":"2030-10"},
     {"id":"google-pixel-fold","model":"Pixel Fold","released":"2023-06-28","legacy_eol":"2028-06-01","group":"current_policy","availability_month":"2023-06","policy_years":5,"published_value":"2028-06"},
     {"id":"google-pixel-7a","model":"Pixel 7a","released":"2023-05-10","legacy_eol":"2028-05-01","group":"current_policy","availability_month":"2023-05","policy_years":5,"published_value":"2028-05"},
     {"id":"google-pixel-7-pro","model":"Pixel 7 Pro","released":"2022-10-13","legacy_eol":"2027-10-01","group":"current_policy","availability_month":"2022-10","policy_years":5,"published_value":"2027-10"},

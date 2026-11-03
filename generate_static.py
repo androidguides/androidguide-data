@@ -55,7 +55,7 @@ def sentence(d: dict, today: date) -> str:
 
 
 def main() -> int:
-    data = json.loads(INPUT.read_text())
+    data = json.loads(INPUT.read_text(encoding="utf-8"))
     devices = sorted(data["devices"], key=lambda x: x["released"], reverse=True)
     today = date.fromisoformat(data["generated"])
 

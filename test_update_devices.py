@@ -164,8 +164,7 @@ class OverrideProvenanceTests(unittest.TestCase):
         overrides = json.loads(
             (root / "overrides.json").read_text(encoding="utf-8")
         )["overrides"]
-        # devices.json now contains the generated, post-override values. Rebuild
-        # only the two upstream anniversary dates this test is meant to exercise;
+        # Rebuild the three upstream anniversary dates this test exercises;
         # otherwise applying the overrides is correctly idempotent and there is
         # no before/after change to assert.
         upstream = [dict(item) for item in current]
@@ -175,10 +174,14 @@ class OverrideProvenanceTests(unittest.TestCase):
                 "samsung-galaxy-a57-5g",
             }:
                 item["eol"] = "2032-04-10"
+            elif item["id"] == "samsung-galaxy-a54-5g":
+                item["eol"] = "2028-03-24"
         before = {item["id"]: item["eol"] for item in upstream}
 
         result = apply_overrides(
-            upstream, entries=overrides
+            upstream, entries=[entry for entry in overrides if entry['id'] in {
+                'samsung-galaxy-a37-5g', 'samsung-galaxy-a54-5g', 'samsung-galaxy-a57-5g'
+            }]
         )
         after = {item["id"]: item["eol"] for item in result}
         changed = sorted(
@@ -272,6 +275,12 @@ class PixelSupportMetadataTests(unittest.TestCase):
             (self.ROOT / "devices.json").read_text(encoding="utf-8")
         )["devices"]
         self.pixels = [dict(device) for device in current if device["brand"] == "Google"]
+        # Production applies reviewed release corrections before the Pixel audit.
+        entries = json.loads((self.ROOT / 'overrides.json').read_text(encoding='utf-8'))['overrides']
+        with redirect_stdout(io.StringIO()):
+            self.pixels = apply_overrides(self.pixels, entries=[
+                entry for entry in entries if entry['id'].startswith('google-pixel-')
+            ])
 
     def test_all_current_pixels_receive_reviewed_metadata(self):
         failures = []
