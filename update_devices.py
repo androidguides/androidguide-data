@@ -54,9 +54,9 @@ MIN_PER_BRAND = {"Google": 15, "Samsung": 40}
 # shifts, the upstream source has changed shape — halt and investigate.
 # (eol is deliberately NOT pinned: EOL dates may legitimately change.)
 CANARIES = {
-    "google-pixel-8": "2023-10-04",
+    "google-pixel-8": "2023-10-12",  # Reviewed US retail availability; see overrides.json.
     "google-pixel-6": "2021-10-28",
-    "samsung-galaxy-s24": "2024-01-24",
+    "samsung-galaxy-s24": "2024-01-31",  # Samsung US general availability.
     "samsung-galaxy-z-fold5": "2023-08-11",
 }
 
